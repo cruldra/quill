@@ -1,64 +1,64 @@
 ---
-title: Upgrading to 2.0
+title: 升级到 2.0
 ---
 
-Quill has been significantly modernized. Leveraging the latest browser-supported APIs, Quill now delivers a more efficient and reliable editing experience.
+Quill 已经进行了重大现代化改造。利用最新的浏览器支持的 API,Quill 现在提供了更高效、更可靠的编辑体验。
 
 ## Quill
 
-The Quill repository has been rewritten in TypeScript, providing an official TypeScript definition file.
+Quill 仓库已使用 TypeScript 重写,提供了官方的 TypeScript 定义文件。
 
-- If you have `@types/quill` installed, uninstall it, as it is no longer needed
-- SVG icons are now inlined in the source code, eliminating the need to set up loaders for .svg files in your bundler.
+- 如果你安装了 `@types/quill`,请卸载它,因为不再需要
+- SVG 图标现在内联在源代码中,无需在打包工具中为 .svg 文件设置加载器。
 
-### Options
+### 选项
 
-- `strict` *removed*
+- `strict` *已移除*
 
-    Previously some changes that were small in practice (renames) but would warrant a semver major bump would be hidden under this configuration.
-    This ended up being more confusing than helpful as we will no longer make use of this.
+    以前,一些在实践中很小的更改(重命名)但需要 semver 主版本号升级的更改会隐藏在此配置下。
+    这最终比有用更令人困惑,因为我们将不再使用它。
 
-- `registry` - added to allow multiple editors with different formats to coexist on the same page. [Learn more](/docs/registries).
+- `registry` - 已添加,允许具有不同格式的多个编辑器在同一页面上共存。[了解更多](/docs/registries)。
 
-- `scrollingContainer` *removed*
+- `scrollingContainer` *已移除*
 
-    Quill will now automatically detect the scrollable ancestor, eliminating the need to provide this option. This new behavior is more robust and works seamlessly with nested scrollable elements.
+    Quill 现在会自动检测可滚动的祖先元素,无需提供此选项。这种新行为更加健壮,可以与嵌套的可滚动元素无缝配合。
 
-## Clipboard
+## 剪贴板
 
-- `convert` - API changed to include both HTML and text and previous functionality is broken into multiple method calls (`convert`, `onCapturePaste`) to allow more surface to hook into.
-- `onCapturePaste` - Added
+- `convert` - API 已更改为同时包含 HTML 和文本,之前的功能被拆分为多个方法调用(`convert`、`onCapturePaste`),以提供更多的钩子接入点。
+- `onCapturePaste` - 已添加
 
-### Configuration
+### 配置
 
-- `matchVisual` *removed* - Previously there was a choice between using visual or semantic interpretation of pasted whitespace; now just the semantic interpretation is used. Visual matching was expensive, requiring the DOM renderer which is no longer available in the new clipboard rewrite.
-- `pasteHTML` *removed* - Deprecated alias to `dangerouslyPasteHTML`.
+- `matchVisual` *已移除* - 以前可以选择使用粘贴空白的视觉或语义解释;现在只使用语义解释。视觉匹配成本很高,需要 DOM 渲染器,而在新的剪贴板重写中不再可用。
+- `pasteHTML` *已移除* - `dangerouslyPasteHTML` 的已弃用别名。
 
-## Keyboard
+## 键盘
 
-- Binding `key` is no longer case insensitive. To support bindings like `key: '@'`, modifiers are taken into account so the shift modifier will affect case sensitivity.
-- Binding `key` now supports an array of keys to easily bind to multiple shortcuts.
-- Native keyboard event object is now also passed into handlers.
+- 绑定 `key` 不再不区分大小写。为了支持像 `key: '@'` 这样的绑定,会考虑修饰键,因此 shift 修饰键会影响大小写敏感性。
+- 绑定 `key` 现在支持键数组,以便轻松绑定到多个快捷键。
+- 原生键盘事件对象现在也会传递给处理程序。
 
 ## Parchment
 
-- All lists use `<ol>` instead of both `<ul>` and `<ol>` allowing better nesting between the two. Copied content will generate the correct semantic markup for paste into other applications.
-- Code block markup now uses `<div>` to better support syntax highlighting.
-- Static `register` method added to allow dependent chains of registration.
-- Static `formats` method now passes in `scroll`.
-- Blot constructor now requires `scroll` to be passed in.
-- Attributors are exported as top-level classes.
+- 所有列表都使用 `<ol>` 而不是同时使用 `<ul>` 和 `<ol>`,从而允许两者之间更好的嵌套。复制的内容将生成正确的语义标记,以便粘贴到其他应用程序中。
+- 代码块标记现在使用 `<div>` 以更好地支持语法高亮。
+- 添加了静态 `register` 方法以允许依赖注册链。
+- 静态 `formats` 方法现在传入 `scroll`。
+- Blot 构造函数现在需要传入 `scroll`。
+- Attributors 作为顶级类导出。
 
-    Instead of accessing class attributor via `Parchment.Attributor.Class`, you now use it at `Parchment.ClassAttributor`.
-    Similarly, `Parchment.Attributor.Style` is now `Parchment.StyleAttributor`, and `Parchment.Attributor.Attribute` is now `Parchment.Attributor`.
-- Exports are using full names.
+    不再通过 `Parchment.Attributor.Class` 访问类属性器,现在使用 `Parchment.ClassAttributor`。
+    同样,`Parchment.Attributor.Style` 现在是 `Parchment.StyleAttributor`,`Parchment.Attributor.Attribute` 现在是 `Parchment.Attributor`。
+- 导出使用完整名称。
 
-    Instead of `Parchment.Scroll`, you now use `Parchment.ScrollBlot`. The similar change applies to `Parchment.Embed`, `Parchment.Text`, `Parchment.Block`, `Parchment.Inline`, and more.
+    不再使用 `Parchment.Scroll`,现在使用 `Parchment.ScrollBlot`。类似的更改适用于 `Parchment.Embed`、`Parchment.Text`、`Parchment.Block`、`Parchment.Inline` 等。
 
 ## Delta
 
-- Support for the deprecated delta format, where embeds had integer values and list attributes had different keys, is now removed
+- 已移除对已弃用的 delta 格式的支持,该格式中嵌入内容具有整数值,列表属性具有不同的键
 
-## Browser
+## 浏览器
 
-- Internet Explorer support is dropped.
+- 已放弃对 Internet Explorer 的支持。

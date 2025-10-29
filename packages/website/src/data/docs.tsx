@@ -1,26 +1,26 @@
 const items = [
   {
-    title: 'Quickstart',
+    title: '快速开始',
     url: '/docs/quickstart',
   },
   {
-    title: 'Why Quill',
+    title: '为什么选择 Quill',
     url: '/docs/why-quill',
   },
   {
-    title: 'Installation',
+    title: '安装',
     url: '/docs/installation',
   },
   {
-    title: 'Upgrading to 2.0',
+    title: '升级到 2.0',
     url: '/docs/upgrading-to-2-0',
   },
   {
-    title: 'Configuration',
+    title: '配置',
     url: '/docs/configuration',
   },
   {
-    title: 'Formats',
+    title: '格式',
     url: '/docs/formats',
   },
   {
@@ -28,31 +28,31 @@ const items = [
     url: '/docs/api',
     children: [
       {
-        title: 'Content',
+        title: '内容',
         url: '/docs/api/#content',
       },
       {
-        title: 'Formatting',
+        title: '格式化',
         url: '/docs/api/#formatting',
       },
       {
-        title: 'Selection',
+        title: '选择',
         url: '/docs/api/#selection',
       },
       {
-        title: 'Editor',
+        title: '编辑器',
         url: '/docs/api/#editor',
       },
       {
-        title: 'Events',
+        title: '事件',
         url: '/docs/api/#events',
       },
       {
-        title: 'Model',
+        title: '模型',
         url: '/docs/api/#model',
       },
       {
-        title: 'Extension',
+        title: '扩展',
         url: '/docs/api/#extension',
       },
     ],
@@ -62,59 +62,59 @@ const items = [
     url: '/docs/delta',
   },
   {
-    title: 'Modules',
+    title: '模块',
     url: '/docs/modules',
     children: [
       {
-        title: 'Toolbar',
+        title: '工具栏',
         url: '/docs/modules/toolbar',
       },
       {
-        title: 'Keyboard',
+        title: '键盘',
         url: '/docs/modules/keyboard',
       },
       {
-        title: 'History',
+        title: '历史',
         url: '/docs/modules/history',
       },
       {
-        title: 'Clipboard',
+        title: '剪贴板',
         url: '/docs/modules/clipboard',
       },
       {
-        title: 'Syntax',
+        title: '语法高亮',
         url: '/docs/modules/syntax',
       },
     ],
   },
   {
-    title: 'Customization',
+    title: '自定义',
     url: '/docs/customization',
     children: [
       {
-        title: 'Themes',
+        title: '主题',
         url: '/docs/customization/themes',
       },
       {
-        title: 'Registries',
+        title: '注册表',
         url: '/docs/customization/registries',
       },
     ],
   },
   {
-    title: 'Guides',
+    title: '指南',
     url: '/docs/guides/designing-the-delta-format',
     children: [
       {
-        title: 'Designing the Delta Format',
+        title: '设计 Delta 格式',
         url: '/docs/guides/designing-the-delta-format',
       },
       {
-        title: 'Building a Custom Module',
+        title: '构建自定义模块',
         url: '/docs/guides/building-a-custom-module',
       },
       {
-        title: 'Cloning Medium with Parchment',
+        title: '使用 Parchment 克隆 Medium',
         url: '/docs/guides/cloning-medium-with-parchment',
       },
     ],

@@ -1,32 +1,32 @@
 ---
-title: History Module
+title: 历史模块
 ---
 
-The History module is responsible for handling undo and redo for Quill. It can be configured with the following options:
+历史模块负责处理 Quill 的撤消和重做。它可以使用以下选项进行配置:
 
-## Configuration
+## 配置
 
 #### delay
 
-- Default: `1000`
+- 默认值: `1000`
 
-Changes occuring within the `delay` number of milliseconds are merged into a single change.
+在 `delay` 毫秒数内发生的更改将合并为单个更改。
 
-For example, with delay set to `0`, nearly every character is recorded as one change and so undo would undo one character at a time. With delay set to `1000`, undo would undo all changes that occured within the last 1000 milliseconds.
+例如,将 delay 设置为 `0`,几乎每个字符都记录为一个更改,因此撤消将一次撤消一个字符。将 delay 设置为 `1000`,撤消将撤消在最后 1000 毫秒内发生的所有更改。
 
 #### maxStack
 
-- Default: `100`
+- 默认值: `100`
 
-Maximum size of the history's undo/redo stack. Merged changes with the `delay` option counts as a singular change.
+历史记录的撤消/重做堆栈的最大大小。使用 `delay` 选项合并的更改计为单个更改。
 
 #### userOnly
 
-- Default: `false`
+- 默认值: `false`
 
-By default all changes, whether originating from user input or programmatically through the API, are treated the same and change be undone or redone by the history module. If `userOnly` is set to `true`, only user changes will be undone or redone.
+默认情况下,所有更改,无论是源自用户输入还是通过 API 以编程方式进行,都被同等对待,并且可以由历史模块撤消或重做。如果 `userOnly` 设置为 `true`,则只有用户更改才会被撤消或重做。
 
-### Example
+### 示例
 
 ```javascript
 const quill = new Quill('#editor', {
@@ -45,15 +45,15 @@ const quill = new Quill('#editor', {
 
 #### clear
 
-Clears the history stack.
+清除历史堆栈。
 
-**Methods**
+**方法**
 
 ```js
 clear()
 ```
 
-**Examples**
+**示例**
 
 ```js
 quill.history.clear();
@@ -61,15 +61,15 @@ quill.history.clear();
 
 #### cutoff
 
-Normally changes made in short succession (configured by `delay`) are merged as a single change, so that triggering an undo will undo multiple changes. Using `cutoff()` will reset the merger window so that a changes before and after `cutoff()` is called will not be merged.
+通常,在短时间内进行的更改(由 `delay` 配置)会合并为单个更改,因此触发撤消将撤消多个更改。使用 `cutoff()` 将重置合并窗口,以便在调用 `cutoff()` 之前和之后的更改不会被合并。
 
-**Methods**
+**方法**
 
 ```js
 cutoff()
 ```
 
-**Examples**
+**示例**
 
 ```js
 quill.history.cutoff();
@@ -77,15 +77,15 @@ quill.history.cutoff();
 
 #### undo
 
-Undo last change.
+撤消上次更改。
 
-**Methods**
+**方法**
 
 ```js
 undo()
 ```
 
-**Examples**
+**示例**
 
 ```js
 quill.history.undo();
@@ -93,15 +93,15 @@ quill.history.undo();
 
 #### redo
 
-If last change was an undo, redo this undo. Otherwise does nothing.
+如果上次更改是撤消,则重做此撤消。否则不执行任何操作。
 
-**Methods**
+**方法**
 
 ```js
 redo()
 ```
 
-**Examples**
+**示例**
 
 ```js
 quill.history.redo();

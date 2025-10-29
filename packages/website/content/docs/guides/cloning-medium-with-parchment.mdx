@@ -1,14 +1,14 @@
 ---
-title: Cloning Medium with Parchment
+title: 使用 Parchment 克隆 Medium
 ---
 
-To provide a consistent editing experience, you need both consistent data and predictable behaviors. The DOM unfortunately lacks both of these. The solution for modern editors is to maintain their own document model to represent their contents. [Parchment](https://github.com/quilljs/parchment/) is that solution for Quill. It is organized in its own codebase with its own API layer. Through Parchment you can customize the content and formats Quill recognizes, or add entirely new ones.
+要提供一致的编辑体验,你需要一致的数据和可预测的行为。不幸的是,DOM 缺少这两者。现代编辑器的解决方案是维护自己的文档模型来表示其内容。[Parchment](https://github.com/quilljs/parchment/) 就是 Quill 的解决方案。它在自己的代码库中组织,具有自己的 API 层。通过 Parchment,你可以自定义 Quill 识别的内容和格式,或添加全新的内容和格式。
 
-In this guide, we will use the building blocks provided by Parchment and Quill to replicate the editor on Medium. We will start with the bare bones of Quill, without any themes, extraneous modules, or formats. At this basic level, Quill only understands plain text. But by the end of this guide, links, videos, and even tweets will be understood.
+在本指南中,我们将使用 Parchment 和 Quill 提供的构建块来复制 Medium 上的编辑器。我们将从 Quill 的基本框架开始,没有任何主题、额外的模块或格式。在这个基本级别,Quill 只理解纯文本。但在本指南结束时,链接、视频甚至推文都将被理解。
 
-## Groundwork
+## 基础工作
 
-Let's start without even using Quill, with just a textarea and button, hooked up to a dummy event listener. We'll use jQuery for convenience throughout this guide, but neither Quill nor Parchment depends on this. We'll also add some basic styling, with the help of [Google Fonts](https://fonts.google.com/) and [Font Awesome](https://fontawesome.io/). None of this has anything to do with Quill or Parchment, so we'll move through quickly.
+让我们从不使用 Quill 开始,只使用一个 textarea 和按钮,连接到一个虚拟事件监听器。为了方便起见,我们将在本指南中使用 jQuery,但 Quill 和 Parchment 都不依赖于此。我们还将添加一些基本样式,借助 [Google Fonts](https://fonts.google.com/) 和 [Font Awesome](https://fontawesome.io/)。这些都与 Quill 或 Parchment 无关,所以我们会快速进行。
 
 <Sandpack
   externalResources={scope.externalResources}
@@ -60,9 +60,9 @@ document.querySelectorAll('button').forEach((button) => {
   }}
 />
 
-## Adding Quill Core
+## 添加 Quill 核心
 
-Next, we'll replace the textarea with Quill core, absent of themes, formats and extraneous modules. Open up your developer console to inspect the demo while you type into the editor. You can see the basic building blocks of a Parchment document at work.
+接下来,我们将用 Quill 核心替换 textarea,没有主题、格式和额外的模块。在你输入编辑器时打开开发者控制台检查演示。你可以看到 Parchment 文档的基本构建块在工作。
 
 <Sandpack
   externalResources={scope.externalResources}
@@ -86,19 +86,19 @@ const quill = new Quill('#editor');
 />
 
 
-Like the DOM, a Parchment document is a tree. Its nodes, called Blots, are an abstraction over DOM Nodes. A few blots are already defined for us: Scroll, Block, Inline, Text and Break. As you type, a Text blot is synchronized with the corresponding DOM Text node; enters are handled by creating a new Block blot. In Parchment, Blots that can have children must have at least one child, so empty Blocks are filled with a Break blot. This makes handling leaves simple and predictable. All this is organized under a root Scroll blot.
+与 DOM 一样,Parchment 文档是一棵树。它的节点称为 Blot,是对 DOM 节点的抽象。已经为我们定义了一些 blot:Scroll、Block、Inline、Text 和 Break。当你输入时,Text blot 与相应的 DOM Text 节点同步;通过创建新的 Block blot 来处理回车。在 Parchment 中,可以有子节点的 Blot 必须至少有一个子节点,因此空 Block 用 Break blot 填充。这使得处理叶子节点简单且可预测。所有这些都组织在根 Scroll blot 下。
 
-You cannot observe an Inline blot by just typing at this point since it does not contribute meaningful structure or formatting to the document. A valid Quill document must be canonical and compact. There is only one valid DOM tree that can represent a given document, and that DOM tree contains the minimal number of nodes.
+此时你无法通过输入观察到 Inline blot,因为它不会为文档贡献有意义的结构或格式。有效的 Quill 文档必须是规范的和紧凑的。只有一个有效的 DOM 树可以表示给定的文档,并且该 DOM 树包含最少数量的节点。
 
-Since `<p><span>Text</span></p>` and `<p>Text</p>` represent the same content, the former is invalid and it is part of Quill's optimization process to unwrap the `<span>`. Similarly, once we add formatting, `<p><em>Te</em><em>st</em></p>` and `<p><em><em>Test</em></em></p>` are also invalid, as they are not the most compact representation.
+由于 `<p><span>Text</span></p>` 和 `<p>Text</p>` 表示相同的内容,前者是无效的,解包 `<span>` 是 Quill 优化过程的一部分。同样,一旦我们添加格式,`<p><em>Te</em><em>st</em></p>` 和 `<p><em><em>Test</em></em></p>` 也是无效的,因为它们不是最紧凑的表示。
 
-Because of these constraints, **Quill cannot support arbitrary DOM trees and HTML changes**. But as we will see, the consistency and predicability this structure provides enables us to easily build rich editing experiences.
+由于这些约束,**Quill 无法支持任意 DOM 树和 HTML 更改**。但正如我们将看到的,这种结构提供的一致性和可预测性使我们能够轻松构建丰富的编辑体验。
 
-## Basic Formatting
+## 基本格式化
 
-We mentioned earlier that an Inline does not contribute formatting. This is the exception, rather than the rule, made for the base Inline class. The base Block blot works the same way for block level elements.
+我们之前提到 Inline 不贡献格式化。这是例外,而不是规则,是为基本 Inline 类制定的。基本 Block blot 对块级元素的工作方式相同。
 
-To implement bold and italics, we need only to inherit from Inline, set the `blotName` and `tagName`, and register it with Quill. For a compelete reference of the signatures of inherited and static methods and variables, take a look at [Parchment](https://github.com/quilljs/parchment/).
+要实现粗体和斜体,我们只需要从 Inline 继承,设置 `blotName` 和 `tagName`,并将其注册到 Quill。有关继承和静态方法和变量的签名的完整参考,请查看 [Parchment](https://github.com/quilljs/parchment/)。
 
 ```js
 const Inline = Quill.import('blots/inline');
@@ -117,7 +117,7 @@ Quill.register(BoldBlot);
 Quill.register(ItalicBlot);
 ```
 
-We follow Medium's example here in using `strong` and `em` tags but you could just as well use `b` and `i` tags. The name of the blot will be used as the name of the format by Quill. By registering our blots, we can now use Quill's full API on our new formats:
+我们在这里遵循 Medium 的示例使用 `strong` 和 `em` 标签,但你也可以使用 `b` 和 `i` 标签。blot 的名称将被 Quill 用作格式的名称。通过注册我们的 blot,我们现在可以在新格式上使用 Quill 的完整 API:
 
 ```js
 Quill.register(BoldBlot);
@@ -127,13 +127,13 @@ const quill = new Quill('#editor');
 
 quill.insertText(0, 'Test', { bold: true });
 quill.formatText(0, 4, 'italic', true);
-// If we named our italic blot "myitalic", we would call
+// 如果我们将斜体 blot 命名为 "myitalic",我们会调用
 // quill.formatText(0, 4, 'myitalic', true);
 ```
 
-Let's get rid of our dummy button handler and hook up the bold and italic buttons to Quill's [`format()`](/docs/api/#format). We will hardcode `true` to always add formatting for simplicity. In your application, you can use [`getFormat()`](/docs/api/#getformat) to retrieve the current formatting over a arbitrary range to decide whether to add or remove a format. The [Toolbar](/docs/modules/toolbar/) module implements this for Quill, and we will not reimplement it here.
+让我们摆脱虚拟按钮处理程序,并将粗体和斜体按钮连接到 Quill 的 [`format()`](/docs/api/#format)。为了简单起见,我们将硬编码 `true` 以始终添加格式。在你的应用程序中,你可以使用 [`getFormat()`](/docs/api/#getformat) 来检索任意范围内的当前格式,以决定是添加还是删除格式。[工具栏](/docs/modules/toolbar/)模块为 Quill 实现了这一点,我们不会在这里重新实现它。
 
-Open your developer console and try out Quill's [APIs](/docs/api) on your new bold and italic formats! Make sure to set the context to the correct CodePen iframe to be able to access the `quill` variable in the demo.
+打开你的开发者控制台,在你的新粗体和斜体格式上尝试 Quill 的 [API](/docs/api)!确保将上下文设置为正确的 CodePen iframe,以便能够访问演示中的 `quill` 变量。
 
 <Sandpack
   externalResources={scope.externalResources}
@@ -168,11 +168,11 @@ const quill = new Quill('#editor');
   }}
 />
 
-Note that if you apply both bold and italic to some text, regardless of what order you do so, Quill wraps the `<strong>` tag outside of the `<em>` tag, in a consistent order.
+请注意,如果你对某些文本同时应用粗体和斜体,无论你以什么顺序执行此操作,Quill 都会以一致的顺序将 `<strong>` 标签包装在 `<em>` 标签外部。
 
-## Links
+## 链接
 
-Links are slightly more complicated, since we need more than a boolean to store the link url. This affects our Link blot in two ways: creation and format retrieval. We will represent the url as a string value, but we could easily do so in other ways, such as an object with a url key, allowing for other key/value pairs to be set and define a link. We will demonstrate this later with [images](#images).
+链接稍微复杂一些,因为我们需要的不仅仅是布尔值来存储链接 url。这以两种方式影响我们的 Link blot:创建和格式检索。我们将 url 表示为字符串值,但我们可以轻松地以其他方式表示,例如具有 url 键的对象,允许设置其他键/值对并定义链接。我们稍后将使用[图像](#images)演示这一点。
 
 ```js
 class LinkBlot extends Inline {
@@ -181,18 +181,18 @@ class LinkBlot extends Inline {
 
   static create(value) {
     const node = super.create();
-    // Sanitize url value if desired
+    // 如果需要,清理 url 值
     node.setAttribute('href', value);
-    // Okay to set other non-format related attributes
-    // These are invisible to Parchment so must be static
+    // 可以设置其他非格式相关的属性
+    // 这些对 Parchment 不可见,因此必须是静态的
     node.setAttribute('target', '_blank');
     return node;
   }
 
   static formats(node) {
-    // We will only be called with a node already
-    // determined to be a Link blot, so we do
-    // not need to check ourselves
+    // 我们只会使用已经
+    // 确定为 Link blot 的节点调用,所以我们
+    // 不需要自己检查
     return node.getAttribute('href');
   }
 }
@@ -200,7 +200,7 @@ class LinkBlot extends Inline {
 Quill.register(LinkBlot);
 ```
 
-Now we can hook our link button up to a fancy `prompt`, again to keep things simple, before passing to Quill's `format()`.
+现在我们可以将链接按钮连接到一个花哨的 `prompt`,再次为了保持简单,然后传递给 Quill 的 `format()`。
 
 <Sandpack
   externalResources={scope.externalResources}
@@ -242,9 +242,9 @@ const quill = new Quill('#editor');
   }}
 />
 
-## Blockquote and Headers
+## 引用块和标题
 
-Blockquotes are implemented the same way as Bold blots, except we will inherit from Block, the base block level Blot. While Inline blots can be nested, Block blots cannot. Instead of wrapping, Block blots replace one another when applied to the same text range.
+引用块的实现方式与 Bold blot 相同,只是我们将从 Block(基本块级 Blot)继承。虽然 Inline blot 可以嵌套,但 Block blot 不能。Block blot 在应用于相同文本范围时会相互替换,而不是包装。
 
 ```js
 const Block = Quill.import('blots/block');
@@ -255,13 +255,13 @@ class BlockquoteBlot extends Block {
 }
 ```
 
-Headers are implemented exactly the same way, with only one difference: it can be represented by more than one DOM element. The value of the format by default becomes the tagName, instead of just `true`. We can customize this by extending `formats()`, similar to how we did so for [links](#links).
+标题的实现方式完全相同,只有一个区别:它可以由多个 DOM 元素表示。默认情况下,格式的值变为 tagName,而不仅仅是 `true`。我们可以通过扩展 `formats()` 来自定义这一点,类似于我们为[链接](#links)所做的。
 
 ```js
 class HeaderBlot extends Block {
   static blotName = 'header';
-  // Medium only supports two header sizes, so we will only demonstrate two,
-  // but we could easily just add more tags into this array
+  // Medium 只支持两种标题大小,所以我们只演示两种,
+  // 但我们可以轻松地将更多标签添加到此数组中
   static tagName = ['H1', 'H2'];
 
   static formats(node) {
@@ -270,7 +270,7 @@ class HeaderBlot extends Block {
 }
 ```
 
-Let's hook these new blots up to their respective buttons and add some CSS for the `<blockquote>` tag.
+让我们将这些新 blot 连接到它们各自的按钮,并为 `<blockquote>` 标签添加一些 CSS。
 
 <Sandpack
   externalResources={scope.externalResources}
@@ -328,13 +328,13 @@ const quill = new Quill('#editor');
   }}
 />
 
-Try setting some text to H1, and in your console, run `quill.getContents()`. You will see our custom static `formats()` function at work. Make sure to set the context to the correct CodePen iframe to be able to access the `quill` variable in the demo.
+尝试将一些文本设置为 H1,然后在控制台中运行 `quill.getContents()`。你将看到我们的自定义静态 `formats()` 函数在工作。确保将上下文设置为正确的 CodePen iframe,以便能够访问演示中的 `quill` 变量。
 
-## Dividers
+## 分隔符
 
-Now let's implement our first leaf Blot. While our previous Blot examples contribute formatting and implement `format()`, leaf Blots contribute content and implement `value()`. Leaf Blots can either be Text or Embed Blots, so our section divider will be an Embed. Once created, Embed Blots' value is immutable, requiring deletion and reinsertion to change the content at that location.
+现在让我们实现第一个叶子 Blot。虽然我们之前的 Blot 示例贡献格式化并实现 `format()`,但叶子 Blot 贡献内容并实现 `value()`。叶子 Blot 可以是 Text 或 Embed Blot,因此我们的分隔符将是 Embed。一旦创建,Embed Blot 的值是不可变的,需要删除和重新插入才能更改该位置的内容。
 
-Our methodology is similar to before, except we inherit from a BlockEmbed. Embed also exists under `blots/embed`, but is meant for inline level blots. We want the block level implementation instead for dividers.
+我们的方法与之前类似,只是我们从 BlockEmbed 继承。Embed 也存在于 `blots/embed` 下,但用于内联级 blot。我们希望为分隔符使用块级实现。
 
 ```js
 const BlockEmbed = Quill.import('blots/block/embed');
@@ -345,7 +345,7 @@ class DividerBlot extends BlockEmbed {
 }
 ```
 
-Our click handler calls [`insertEmbed()`](/docs/api/#insertembed), which does not as conveniently determine, save, and restore the user selection for us like [`format()`](/docs/api/#format) does, so we have to do a little more work to preserve selection ourselves. In addition, when we try to insert a BlockEmbed in the middle of the Block, Quill splits the Block for us. To make this behavior more clear, we will explicitly split the block oursevles by inserting a newline before inserting the divider. Take a look at the Babel tab in the CodePen for specifics.
+我们的点击处理程序调用 [`insertEmbed()`](/docs/api/#insertembed),它不像 [`format()`](/docs/api/#format) 那样方便地为我们确定、保存和恢复用户选择,因此我们必须做更多的工作来自己保留选择。此外,当我们尝试在 Block 中间插入 BlockEmbed 时,Quill 会为我们拆分 Block。为了使这种行为更清楚,我们将通过在插入分隔符之前插入换行符来显式拆分块。查看 CodePen 中的 Babel 选项卡以获取详细信息。
 
 <Sandpack
   externalResources={scope.externalResources}
@@ -410,9 +410,9 @@ const quill = new Quill('#editor');
   }}
 />
 
-## Images
+## 图像
 
-Images can be added with what we learned building the [Link](#links) and [Divider](#divider) blots. We will use an object for the value to show how this is supported. Our button handler to insert images will use a static value, so we are not distracted by tooltip UI code irrelevant to [Parchment](https://github.com/quilljs/parchment/), the focus of this guide.
+可以使用我们在构建[链接](#links)和[分隔符](#divider) blot 时学到的知识添加图像。我们将使用对象作为值来展示如何支持这一点。我们插入图像的按钮处理程序将使用静态值,因此我们不会被与 [Parchment](https://github.com/quilljs/parchment/) 无关的工具提示 UI 代码分散注意力,这是本指南的重点。
 
 ```js
 const BlockEmbed = Quill.import('blots/block/embed');
@@ -513,11 +513,11 @@ const quill = new Quill('#editor');
 />
 
 
-## Videos
+## 视频
 
-We will implement videos in a similar way as we did [images](#images). We could use the HTML5 `<video>` tag but we cannot play YouTube videos this way, and since this is likely the more common and relevant use case, we will use an `<iframe>` to support this. We do not have to here, but if you want multiple Blots to use the same tag, you can use `className` in addition to `tagName`, demonstrated in the next [Tweet](#tweet) example.
+我们将以与[图像](#images)类似的方式实现视频。我们可以使用 HTML5 `<video>` 标签,但我们无法以这种方式播放 YouTube 视频,由于这可能是更常见和相关的用例,我们将使用 `<iframe>` 来支持这一点。我们不必在这里这样做,但如果你希望多个 Blot 使用相同的标签,你可以在 `tagName` 之外使用 `className`,在下一个 [Tweet](#tweet) 示例中演示。
 
-Additionally we will add support for widths and heights, as unregistered formats. Formats specific to Embeds do not have to be registered separately, as long as there is no namespace collision with registered formats. This works since Blots just pass unknown formats to its children, eventually reaching the leaves. This also allows different Embeds to handle unregistered formats differently. For example, our [image](#images) embed from earlier could have recognized and handled the `width` format differently than our video does here.
+此外,我们将添加对宽度和高度的支持,作为未注册的格式。特定于 Embed 的格式不必单独注册,只要与注册的格式没有命名空间冲突。这是有效的,因为 Blot 只是将未知格式传递给其子节点,最终到达叶子节点。这也允许不同的 Embed 以不同的方式处理未注册的格式。例如,我们之前的[图像](#images) embed 可以识别并处理 `width` 格式,与我们的视频在这里的处理方式不同。
 
 ```js
 class VideoBlot extends BlockEmbed {
@@ -527,7 +527,7 @@ class VideoBlot extends BlockEmbed {
   static create(url) {
     const node = super.create();
     node.setAttribute('src', url);
-    // Set non-format related attributes with static values
+    // 使用静态值设置非格式相关的属性
     node.setAttribute('frameborder', '0');
     node.setAttribute('allowfullscreen', true);
 
@@ -535,7 +535,7 @@ class VideoBlot extends BlockEmbed {
   }
 
   static formats(node) {
-    // We still need to report unregistered embed formats
+    // 我们仍然需要报告未注册的嵌入格式
     const format = {};
     if (node.hasAttribute('height')) {
       format.height = node.getAttribute('height');
@@ -551,7 +551,7 @@ class VideoBlot extends BlockEmbed {
   }
 
   format(name, value) {
-    // Handle unregistered embed formats
+    // 处理未注册的嵌入格式
     if (name === 'height' || name === 'width') {
       if (value) {
         this.domNode.setAttribute(name, value);
@@ -565,7 +565,7 @@ class VideoBlot extends BlockEmbed {
 }
 ```
 
-Note if you open your console and call [`getContents`](/docs/api/#getcontents), Quill will report the video as:
+请注意,如果你打开控制台并调用 [`getContents`](/docs/api/#getcontents),Quill 将报告视频为:
 
 ```js
 {
@@ -667,13 +667,13 @@ const quill = new Quill('#editor');
   }}
 />
 
-## Tweets
+## 推文
 
-Medium supports many embed types, but we will just focus on Tweets for this guide. The Tweet blot is implemented almost exactly the same as [images](#images). We take advantage of the fact that Embed blots do not have to correspond to a void node. It can be any arbitrary node and Quill will treat it like a void node and not traverse its children or descendants. This allows us to use a `<div>` and the native Twitter JavaScript library to do what it pleases within the `<div>` container we specify.
+Medium 支持许多嵌入类型,但我们将在本指南中只关注推文。Tweet blot 的实现几乎与[图像](#images)完全相同。我们利用了 Embed blot 不必对应于 void 节点的事实。它可以是任意节点,Quill 会将其视为 void 节点,不会遍历其子节点或后代。这允许我们使用 `<div>` 和原生 Twitter JavaScript 库在我们指定的 `<div>` 容器内执行它想要的操作。
 
-Since our root Scroll Blot also uses a `<div>`, we also specify a `className` to disambiguate. Note Inline blots use `<span>` and Block Blots use `<p>` by default, so if you would like to use these tags for your custom Blots, you will have to specify a `className` in addition to a `tagName`.
+由于我们的根 Scroll Blot 也使用 `<div>`,我们还指定了 `className` 来消除歧义。请注意,Inline blot 默认使用 `<span>`,Block Blot 默认使用 `<p>`,因此如果你想为自定义 Blot 使用这些标签,则必须在 `tagName` 之外指定 `className`。
 
-We use the Tweet id as the value defining our Blot. Again our click handler uses a static value to avoid distraction from irrelevant UI code.
+我们使用 Tweet id 作为定义 Blot 的值。同样,我们的点击处理程序使用静态值以避免被无关的 UI 代码分散注意力。
 
 ```js
 class TweetBlot extends BlockEmbed {
@@ -684,7 +684,7 @@ class TweetBlot extends BlockEmbed {
   static create(id) {
     const node = super.create();
     node.dataset.id = id;
-    // Allow twitter library to modify our contents
+    // 允许 twitter 库修改我们的内容
     twttr.widgets.createTweet(id, node);
     return node;
   }

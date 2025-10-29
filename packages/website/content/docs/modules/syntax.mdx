@@ -1,23 +1,23 @@
 ---
-title: Syntax Highlighter Module
+title: 语法高亮模块
 ---
 
-The Syntax Module enhances the Code Block format by automatically detecting and applying syntax highlighting. The excellent [highlight.js](https://highlightjs.org/) library is used as a dependency to parse and tokenize code blocks.
+语法模块通过自动检测和应用语法高亮来增强代码块格式。优秀的 [highlight.js](https://highlightjs.org/) 库被用作依赖项来解析和标记代码块。
 
-In general, you may [configure](https://highlightjs.readthedocs.io/en/latest/api.html#configure-options) highlight.js as needed. However, Quill expects and requires the `useBR` option to be `false` if you are using highlight.js &lt; v11.
+通常,你可以根据需要[配置](https://highlightjs.readthedocs.io/en/latest/api.html#configure-options) highlight.js。但是,如果你使用的是 highlight.js &lt; v11,Quill 期望并要求 `useBR` 选项为 `false`。
 
-Quill supports highlight.js v9.12.0 and later.
+Quill 支持 highlight.js v9.12.0 及更高版本。
 
-### Usage
+### 用法
 
 <Sandpack
   defaultShowPreview
   files={{
   "/index.html":  `
-<!-- Include your favorite highlight.js stylesheet -->
+<!-- 包含你喜欢的 highlight.js 样式表 -->
 <link href="{{site.highlightjs}}/styles/atom-one-dark.min.css" rel="stylesheet">
 
-<!-- Include the highlight.js library -->
+<!-- 包含 highlight.js 库 -->
 <script src="{{site.highlightjs}}/highlight.min.js"></script>
 
 <link href="{{site.cdn}}/quill.snow.css" rel="stylesheet" />
@@ -28,8 +28,8 @@ Quill supports highlight.js v9.12.0 and later.
 <script>
 const quill = new Quill('#editor', {
   modules: {
-    syntax: true,              // Include syntax module
-    toolbar: [['code-block']]  // Include button in toolbar
+    syntax: true,              // 包含语法模块
+    toolbar: [['code-block']]  // 在工具栏中包含按钮
   },
   theme: 'snow'
 });
@@ -46,9 +46,9 @@ quill.setContents(
 `}}
 />
 
-### Use npm Package
+### 使用 npm 包
 
-If you install highlight.js as an npm package and don't want to expose it to `window`, you need to pass it to syntax module as an option:
+如果你将 highlight.js 安装为 npm 包并且不想将其暴露给 `window`,则需要将其作为选项传递给语法模块:
 
 ```js
 import Quill from 'quill';

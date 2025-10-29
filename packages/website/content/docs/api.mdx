@@ -19,25 +19,25 @@ title: API
   ))}
 </div>
 
-## Content
+## 内容
 
 ### deleteText
 
-Deletes text from the editor, returning a [Delta](/docs/delta/) representing the change. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+从编辑器中删除文本,返回表示更改的 [Delta](/docs/delta/)。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 deleteText(index: number, length: number, source: string = 'api'): Delta
 ```
 
-**Example 1**
+**示例 1**
 
 ```typescript
 quill.deleteText(6, 4);
 ```
 
-**Example 2**
+**示例 2**
 
 <SandpackWithQuillTemplate
   beforeEditor={`
@@ -61,15 +61,15 @@ document.querySelector('#deleteButton').addEventListener('click', () => {
 
 ### getContents
 
-Retrieves contents of the editor, with formatting data, represented by a [Delta](/docs/delta/) object.
+检索编辑器的内容及格式数据,以 [Delta](/docs/delta/) 对象表示。
 
-**Methods**
+**方法**
 
 ```typescript
 getContents(index: number = 0, length: number = remaining): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const delta = quill.getContents();
@@ -77,15 +77,15 @@ const delta = quill.getContents();
 
 ### getLength
 
-Retrieves the length of the editor contents. Note even when Quill is empty, there is still a blank line represented by '\n', so `getLength` will return 1.
+检索编辑器内容的长度。请注意,即使 Quill 为空,仍然有一个由 '\n' 表示的空行,因此 `getLength` 将返回 1。
 
-**Methods**
+**方法**
 
 ```typescript
 getLength(): number
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const length = quill.getLength();
@@ -93,17 +93,17 @@ const length = quill.getLength();
 
 ### getText
 
-Retrieves the string contents of the editor. Non-string content are omitted, so the returned string's length may be shorter than the editor's as returned by [`getLength`](#getlength). Note even when Quill is empty, there is still a blank line in the editor, so in these cases `getText` will return '\n'.
+检索编辑器的字符串内容。非字符串内容将被省略,因此返回的字符串长度可能比 [`getLength`](#getlength) 返回的编辑器长度短。请注意,即使 Quill 为空,编辑器中仍然有一个空行,因此在这些情况下 `getText` 将返回 '\n'。
 
-The `length` parameter defaults to the length of the remaining document.
+`length` 参数默认为剩余文档的长度。
 
-**Methods**
+**方法**
 
 ```typescript
 getText(index: number = 0, length: number = remaining): string
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const text = quill.getText(0, 10);
@@ -111,18 +111,18 @@ const text = quill.getText(0, 10);
 
 ### getSemanticHTML
 
-Get the HTML representation of the editor contents.
-This method is useful for exporting the contents of the editor in a format that can be used in other applications.
+获取编辑器内容的 HTML 表示。
+此方法对于以可在其他应用程序中使用的格式导出编辑器内容很有用。
 
-The `length` parameter defaults to the length of the remaining document.
+`length` 参数默认为剩余文档的长度。
 
-**Methods**
+**方法**
 
 ```typescript
 getSemanticHTML(index: number = 0, length: number = remaining): string
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const html = quill.getSemanticHTML(0, 10);
@@ -130,15 +130,15 @@ const html = quill.getSemanticHTML(0, 10);
 
 ### insertEmbed
 
-Insert embedded content into the editor, returning a [Delta](/docs/delta/) representing the change. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+将嵌入内容插入编辑器,返回表示更改的 [Delta](/docs/delta/)。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 insertEmbed(index: number, type: string, value: any, source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.insertEmbed(10, 'image', 'https://quilljs.com/images/cloud.png');
@@ -146,9 +146,9 @@ quill.insertEmbed(10, 'image', 'https://quilljs.com/images/cloud.png');
 
 ### insertText
 
-Inserts text into the editor, optionally with a specified format or multiple [formats](/docs/formats/). Returns a [Delta](/docs/delta/) representing the change. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+将文本插入编辑器,可选择指定格式或多个[格式](/docs/formats/)。返回表示更改的 [Delta](/docs/delta/)。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 insertText(index: number, text: string, source: string = 'api'): Delta
@@ -158,7 +158,7 @@ insertText(index: number, text: string, formats: { [name: string]: any },
            source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.insertText(0, 'Hello', 'bold', true);
@@ -171,15 +171,15 @@ quill.insertText(5, 'Quill', {
 
 ### setContents
 
-Overwrites editor with given contents. Contents should end with a [newline](/docs/delta/#line-formatting). Returns a Delta representing the change. This will be the same as the Delta passed in, if given Delta had no invalid operations. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+用给定的内容覆盖编辑器。内容应以[换行符](/docs/delta/#line-formatting)结尾。返回表示更改的 Delta。如果给定的 Delta 没有无效操作,这将与传入的 Delta 相同。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 setContents(delta: Delta, source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setContents([
@@ -191,15 +191,15 @@ quill.setContents([
 
 ### setText
 
-Sets contents of editor with given text, returning a [Delta](/docs/delta/) representing the change. Note Quill documents must end with a newline so one will be added for you if omitted. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+用给定的文本设置编辑器的内容,返回表示更改的 [Delta](/docs/delta/)。请注意,Quill 文档必须以换行符结尾,因此如果省略,将为你添加一个。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 setText(text: string, source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setText('Hello\n');
@@ -207,48 +207,48 @@ quill.setText('Hello\n');
 
 ### updateContents
 
-Applies Delta to editor contents, returning a [Delta](/docs/delta/) representing the change. These Deltas will be the same if the Delta passed in had no invalid operations. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+将 Delta 应用于编辑器内容,返回表示更改的 [Delta](/docs/delta/)。如果传入的 Delta 没有无效操作,这些 Deltas 将相同。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 updateContents(delta: Delta, source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
-// Assuming editor currently contains [{ insert: 'Hello World!' }]
+// 假设编辑器当前包含 [{ insert: 'Hello World!' }]
 quill.updateContents(new Delta()
-  .retain(6)                  // Keep 'Hello '
-  .delete(5)                  // 'World' is deleted
+  .retain(6)                  // 保留 'Hello '
+  .delete(5)                  // 删除 'World'
   .insert('Quill')
-  .retain(1, { bold: true })  // Apply bold to exclamation mark
+  .retain(1, { bold: true })  // 将感叹号设为粗体
 );
-// Editor should now be [
+// 编辑器现在应该是 [
 //  { insert: 'Hello Quill' },
 //  { insert: '!', attributes: { bold: true} }
 // ]
 ```
 
 <Hint>
-This method updates the contents from the beginning, not from the current selection.
-Use `Delta#retain(length: number)` to skip the contents you wish to leave unchanged.
+此方法从开头更新内容,而不是从当前选择开始。
+使用 `Delta#retain(length: number)` 跳过你希望保持不变的内容。
 </Hint>
 
-## Formatting
+## 格式化
 
 ### format
 
-Format text at user's current selection, returning a [Delta](/docs/delta/) representing the change. If the user's selection length is 0, i.e. it is a cursor, the format will be set active, so the next character the user types will have that formatting. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+格式化用户当前选择的文本,返回表示更改的 [Delta](/docs/delta/)。如果用户的选择长度为 0,即它是一个光标,则格式将被设置为活动状态,因此用户键入的下一个字符将具有该格式。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 format(name: string, value: any, source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.format('color', 'red');
@@ -257,9 +257,9 @@ quill.format('align', 'right');
 
 ### formatLine
 
-Formats all lines in given range, returning a [Delta](/docs/delta/) representing the change. See [formats](/docs/formats/) for a list of available formats. Has no effect when called with inline formats. To remove formatting, pass `false` for the value argument. The user's selection may not be preserved. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+格式化给定范围内的所有行,返回表示更改的 [Delta](/docs/delta/)。有关可用格式的列表,请参阅[格式](/docs/formats/)。使用内联格式调用时无效。要删除格式,请为 value 参数传递 `false`。用户的选择可能不会被保留。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 formatLine(index: number, length: number, source: string = 'api'): Delta
@@ -269,20 +269,20 @@ formatLine(index: number, length: number, formats: { [name: string]: any },
            source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setText('Hello\nWorld!\n');
 
-quill.formatLine(1, 2, 'align', 'right');   // right aligns the first line
-quill.formatLine(4, 4, 'align', 'center');  // center aligns both lines
+quill.formatLine(1, 2, 'align', 'right');   // 右对齐第一行
+quill.formatLine(4, 4, 'align', 'center');  // 居中对齐两行
 ```
 
 ### formatText
 
-Formats text in the editor, returning a [Delta](/docs/delta/) representing the change. For line level formats, such as text alignment, target the newline character or use the [`formatLine`](#formatline) helper. See [formats](/docs/formats/) for a list of available formats. To remove formatting, pass `false` for the value argument. The user's selection may not be preserved. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+格式化编辑器中的文本,返回表示更改的 [Delta](/docs/delta/)。对于行级格式(如文本对齐),请针对换行符或使用 [`formatLine`](#formatline) 辅助方法。有关可用格式的列表,请参阅[格式](/docs/formats/)。要删除格式,请为 value 参数传递 `false`。用户的选择可能不会被保留。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 formatText(index: number, length: number, source: string = 'api'): Delta
@@ -292,33 +292,33 @@ formatText(index: number, length: number, formats: { [name: string]: any },
            source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setText('Hello\nWorld!\n');
 
-quill.formatText(0, 5, 'bold', true);      // bolds 'hello'
+quill.formatText(0, 5, 'bold', true);      // 将 'hello' 设为粗体
 
-quill.formatText(0, 5, {                   // unbolds 'hello' and set its color to blue
+quill.formatText(0, 5, {                   // 取消 'hello' 的粗体并将其颜色设置为蓝色
   'bold': false,
   'color': 'rgb(0, 0, 255)'
 });
 
-quill.formatText(5, 1, 'align', 'right');  // right aligns the 'hello' line
+quill.formatText(5, 1, 'align', 'right');  // 右对齐 'hello' 行
 ```
 
 ### getFormat
 
-Retrieves common formatting of the text in the given range. For a format to be reported, all text within the range must have a truthy value. If there are different truthy values, an array with all truthy values will be reported. If no range is supplied, the user's current selection range is used. May be used to show which formats have been set on the cursor. If called with no arguments, the user's current selection range will be used.
+检索给定范围内文本的通用格式。要报告格式,范围内的所有文本都必须具有真值。如果有不同的真值,将报告包含所有真值的数组。如果未提供范围,则使用用户的当前选择范围。可用于显示在光标上设置了哪些格式。如果不带参数调用,将使用用户的当前选择范围。
 
-**Methods**
+**方法**
 
 ```typescript
 getFormat(range: Range = current): Record<string, unknown>
 getFormat(index: number, length: number = 0): Record<string, unknown>
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setText('Hello World!');
@@ -344,15 +344,15 @@ quill.getFormat();       // { italic: true, color: 'blue', strike: true,
 
 ### removeFormat
 
-Removes all formatting and embeds within given range, returning a [Delta](/docs/delta/) representing the change. Line formatting will be removed if any part of the line is included in the range. The user's selection may not be preserved. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`. Calls where the `source` is `"user"` when the editor is [disabled](#disable) are ignored.
+删除给定范围内的所有格式和嵌入内容,返回表示更改的 [Delta](/docs/delta/)。如果范围包含行的任何部分,则将删除行格式。用户的选择可能不会被保留。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。当编辑器被[禁用](#disable)时,`source` 为 `"user"` 的调用将被忽略。
 
-**Methods**
+**方法**
 
 ```typescript
 removeFormat(index: number, length: number, source: string = 'api'): Delta
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setContents([
@@ -365,7 +365,7 @@ quill.setContents([
 ]);
 
 quill.removeFormat(3, 7);
-// Editor contents are now
+// 编辑器内容现在是
 // [
 //   { insert: 'Hel', { bold: true } },
 //   { insert: 'lo\n\nWo' },
@@ -375,57 +375,57 @@ quill.removeFormat(3, 7);
 
 ```
 
-## Selection
+## 选择
 
 ### getBounds
 
-Retrieves the pixel position (relative to the editor container) and dimensions of a selection at a given location. The user's current selection need not be at that index. Useful for calculating where to place tooltips.
+检索给定位置的选择的像素位置(相对于编辑器容器)和尺寸。用户的当前选择不必在该索引处。对于计算工具提示的放置位置很有用。
 
-**Methods**
+**方法**
 
 ```typescript
 getBounds(index: number, length: number = 0):
   { left: number, top: number, height: number, width: number }
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setText('Hello\nWorld\n');
-quill.getBounds(7); // Returns { height: 15, width: 0, left: 27, top: 31 }
+quill.getBounds(7); // 返回 { height: 15, width: 0, left: 27, top: 31 }
 ```
 
 ### getSelection
 
-Retrieves the user's selection range, optionally to focus the editor first. Otherwise `null` may be returned if editor does not have focus.
+检索用户的选择范围,可选择首先聚焦编辑器。否则,如果编辑器没有焦点,可能会返回 `null`。
 
-**Methods**
+**方法**
 
 ```typescript
 getSelection(focus = false): { index: number, length: number }
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const range = quill.getSelection();
 if (range) {
   if (range.length == 0) {
-    console.log('User cursor is at index', range.index);
+    console.log('用户光标位于索引', range.index);
   } else {
     const text = quill.getText(range.index, range.length);
-    console.log('User has highlighted: ', text);
+    console.log('用户已高亮显示: ', text);
   }
 } else {
-  console.log('User cursor is not in editor');
+  console.log('用户光标不在编辑器中');
 }
 ```
 
 ### setSelection
 
-Sets user selection to given range, which will also focus the editor. Providing `null` as the selection range will blur the editor. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`.
+将用户选择设置为给定范围,这也将聚焦编辑器。提供 `null` 作为选择范围将使编辑器失焦。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。
 
-**Methods**
+**方法**
 
 ```typescript
 setSelection(index: number, length: number = 0, source: string = 'api')
@@ -433,7 +433,7 @@ setSelection(range: { index: number, length: number },
              source: string = 'api')
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setSelection(0, 5);
@@ -442,39 +442,39 @@ quill.setSelection(0, 5);
 
 ### scrollSelectionIntoView
 
-Scroll the current selection into the visible area.
-If the selection is already visible, no scrolling will occur.
+将当前选择滚动到可见区域。
+如果选择已经可见,则不会发生滚动。
 
 <Hint>
-Quill calls this method automatically when [setSelection](#setselection) is called, unless the source is `"silent"`.
+当调用 [setSelection](#setselection) 时,Quill 会自动调用此方法,除非 source 是 `"silent"`。
 </Hint>
 
-**Methods**
+**方法**
 
 ```typescript
 scrollSelectionIntoView();
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.scrollSelectionIntoView();
 ```
 
 
-## Editor
+## 编辑器
 
 ### blur
 
-Removes focus from the editor.
+从编辑器移除焦点。
 
-**Methods**
+**方法**
 
 ```typescript
 blur();
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.blur();
@@ -482,56 +482,56 @@ quill.blur();
 
 ### disable
 
-Shorthand for [`enable(false)`](#enable).
+[`enable(false)`](#enable) 的简写。
 
 ### enable
 
-Set ability for user to edit, via input devices like the mouse or keyboard. Does not affect capabilities of API calls, when the `source` is `"api"` or `"silent"`.
+设置用户通过鼠标或键盘等输入设备进行编辑的能力。当 `source` 为 `"api"` 或 `"silent"` 时,不影响 API 调用的功能。
 
-**Methods**
+**方法**
 
 ```typescript
 enable(enabled: boolean = true);
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.enable();
-quill.enable(false);   // Disables user input
+quill.enable(false);   // 禁用用户输入
 ```
 
 ### focus
 
-Focuses the editor and restores its last range.
+聚焦编辑器并恢复其最后的范围。
 
-**Methods**
+**方法**
 
 ```typescript
 focus(options: { preventScroll?: boolean } = {});
 ```
 
-**Examples**
+**示例**
 
 ```typescript
-// Focus the editor, and scroll the selection into view
+// 聚焦编辑器,并将选择滚动到视图中
 quill.focus();
 
-// Focus the editor, but don't scroll
+// 聚焦编辑器,但不滚动
 quill.focus({ preventScroll: true });
 ```
 
 ### hasFocus
 
-Checks if editor has focus. Note focus on toolbar, tooltips, does not count as the editor.
+检查编辑器是否有焦点。请注意,工具栏、工具提示上的焦点不算作编辑器。
 
-**Methods**
+**方法**
 
 ```typescript
 hasFocus(): boolean
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.hasFocus();
@@ -539,15 +539,15 @@ quill.hasFocus();
 
 ### update
 
-Synchronously check editor for user updates and fires events, if changes have occurred. Useful for collaborative use cases during conflict resolution requiring the latest up to date state. [Source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`.
+同步检查编辑器的用户更新,如果发生了更改,则触发事件。对于需要最新状态的协作用例中的冲突解决很有用。[Source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。
 
-**Methods**
+**方法**
 
 ```typescript
 update(((source: string) = 'user'));
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.update();
@@ -555,8 +555,8 @@ quill.update();
 
 ### scrollRectIntoView #experimental
 
-Scrolls the editor to the given pixel position.
-[`scrollSelectionIntoView`](#scrollselectionintoview) is implemented by calling this method with the bounds of the current selection.
+将编辑器滚动到给定的像素位置。
+[`scrollSelectionIntoView`](#scrollselectionintoview) 通过使用当前选择的边界调用此方法来实现。
 
 ```typescript
 scrollRectIntoView(bounds: {
@@ -567,17 +567,17 @@ scrollRectIntoView(bounds: {
 });
 ```
 
-**Example 1**
+**示例 1**
 
 ```typescript
-// Scroll the editor to reveal the range of { index: 20, length: 5 }
+// 滚动编辑器以显示范围 { index: 20, length: 5 }
 const bounds = this.selection.getBounds(20, 5);
 if (bounds) {
   quill.scrollRectIntoView(bounds);
 }
 ```
 
-**Example 2**
+**示例 2**
 
 <SandpackWithQuillTemplate
   files={{
@@ -602,48 +602,48 @@ if (bounds) {
   }}
 />
 
-## Events
+## 事件
 
 ### text-change
 
-Emitted when the contents of Quill have changed. Details of the change, representation of the editor contents before the change, along with the source of the change are provided. The source will be `"user"` if it originates from the users. For example:
+当 Quill 的内容发生更改时触发。提供更改的详细信息、更改前编辑器内容的表示以及更改的来源。如果源自用户,则 source 将为 `"user"`。例如:
 
-- User types into the editor
-- User formats text using the toolbar
-- User uses a hotkey to undo
-- User uses OS spelling correction
+- 用户在编辑器中输入
+- 用户使用工具栏格式化文本
+- 用户使用热键撤消
+- 用户使用操作系统拼写更正
 
-Changes may occur through an API but as long as they originate from the user, the provided source should still be `"user"`. For example, when a user clicks on the toolbar, technically the toolbar module calls a Quill API to effect the change. But source is still `"user"` since the origin of the change was the user's click.
+更改可能通过 API 发生,但只要它们源自用户,提供的 source 仍应为 `"user"`。例如,当用户单击工具栏时,从技术上讲,工具栏模块调用 Quill API 来实现更改。但 source 仍然是 `"user"`,因为更改的来源是用户的点击。
 
-APIs causing text to change may also be called with a `"silent"` source, in which case `text-change` will not be emitted. This is not recommended as it will likely break the undo stack and other functions that rely on a full record of text changes.
+导致文本更改的 API 也可以使用 `"silent"` source 调用,在这种情况下不会触发 `text-change`。不建议这样做,因为它可能会破坏撤消堆栈和依赖于完整文本更改记录的其他功能。
 
-Changes to text may cause changes to the selection (ex. typing advances the cursor), however during the `text-change` handler, the selection is not yet updated, and native browser behavior may place it in an inconsistent state. Use [`selection-change`](#selection-change) or [`editor-change`](#editor-change) for reliable selection updates.
+对文本的更改可能会导致选择的更改(例如,输入会推进光标),但是在 `text-change` 处理程序期间,选择尚未更新,原生浏览器行为可能会将其置于不一致的状态。使用 [`selection-change`](#selection-change) 或 [`editor-change`](#editor-change) 进行可靠的选择更新。
 
-**Callback Signature**
+**回调签名**
 
 ```typescript
 handler(delta: Delta, oldContents: Delta, source: string)
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.on('text-change', (delta, oldDelta, source) => {
   if (source == 'api') {
-    console.log('An API call triggered this change.');
+    console.log('API 调用触发了此更改。');
   } else if (source == 'user') {
-    console.log('A user action triggered this change.');
+    console.log('用户操作触发了此更改。');
   }
 });
 ```
 
 ### selection-change
 
-Emitted when a user or API causes the selection to change, with a range representing the selection boundaries. A null range indicates selection loss (usually caused by loss of focus from the editor). You can also use this event as a focus change event by just checking if the emitted range is null or not.
+当用户或 API 导致选择更改时触发,范围表示选择边界。null 范围表示选择丢失(通常由编辑器失去焦点引起)。你还可以通过检查发出的范围是否为 null 来将此事件用作焦点更改事件。
 
-APIs causing the selection to change may also be called with a `"silent"` source, in which case `selection-change` will not be emitted. This is useful if `selection-change` is a side effect. For example, typing causes the selection to change but would be very noisy to also emit a `selection-change` event on every character.
+导致选择更改的 API 也可以使用 `"silent"` source 调用,在这种情况下不会触发 `selection-change`。如果 `selection-change` 是副作用,这很有用。例如,输入会导致选择更改,但在每个字符上也发出 `selection-change` 事件会非常嘈杂。
 
-**Callback Signature**
+**回调签名**
 
 ```typescript
 handler(range: { index: number, length: number },
@@ -651,222 +651,222 @@ handler(range: { index: number, length: number },
         source: string)
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.on('selection-change', (range, oldRange, source) => {
   if (range) {
     if (range.length == 0) {
-      console.log('User cursor is on', range.index);
+      console.log('用户光标位于', range.index);
     } else {
       const text = quill.getText(range.index, range.length);
-      console.log('User has highlighted', text);
+      console.log('用户已高亮显示', text);
     }
   } else {
-    console.log('Cursor not in the editor');
+    console.log('光标不在编辑器中');
   }
 });
 ```
 
 ### editor-change
 
-Emitted when either `text-change` or `selection-change` would be emitted, even when the source is `"silent"`. The first parameter is the event name, either `text-change` or `selection-change`, followed by the arguments normally passed to those respective handlers.
+当 `text-change` 或 `selection-change` 将被触发时触发,即使 source 是 `"silent"`。第一个参数是事件名称,`text-change` 或 `selection-change`,后跟通常传递给这些相应处理程序的参数。
 
-**Callback Signature**
+**回调签名**
 
 ```typescript
 handler(name: string, ...args)
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.on('editor-change', (eventName, ...args) => {
   if (eventName === 'text-change') {
-    // args[0] will be delta
+    // args[0] 将是 delta
   } else if (eventName === 'selection-change') {
-    // args[0] will be old range
+    // args[0] 将是旧范围
   }
 });
 ```
 
 ### on
 
-Adds event handler. See [text-change](#text-change) or [selection-change](#selection-change) for more details on the events themselves.
+添加事件处理程序。有关事件本身的更多详细信息,请参阅 [text-change](#text-change) 或 [selection-change](#selection-change)。
 
-**Methods**
+**方法**
 
 ```typescript
 on(name: string, handler: Function): Quill
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.on('text-change', () => {
-  console.log('Text change!');
+  console.log('文本更改!');
 });
 ```
 
 ### once
 
-Adds handler for one emission of an event. See [text-change](#text-change) or [selection-change](#selection-change) for more details on the events themselves.
+为事件的一次触发添加处理程序。有关事件本身的更多详细信息,请参阅 [text-change](#text-change) 或 [selection-change](#selection-change)。
 
-**Methods**
+**方法**
 
 ```typescript
 once(name: string, handler: Function): Quill
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.once('text-change', () => {
-  console.log('First text change!');
+  console.log('第一次文本更改!');
 });
 ```
 
 ### off
 
-Removes event handler.
+删除事件处理程序。
 
-**Methods**
+**方法**
 
 ```typescript
 off(name: string, handler: Function): Quill
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 function handler() {
-  console.log('Hello!');
+  console.log('你好!');
 }
 
 quill.on('text-change', handler);
 quill.off('text-change', handler);
 ```
 
-## Model
+## 模型
 
 ### find
 
-Static method returning the Quill or [Blot](https://github.com/quilljs/parchment) instance for the given DOM node. In the latter case, passing in true for the `bubble` parameter will search up the given DOM's ancestors until it finds a corresponding [Blot](https://github.com/quilljs/parchment).
+静态方法,返回给定 DOM 节点的 Quill 或 [Blot](https://github.com/quilljs/parchment) 实例。在后一种情况下,为 `bubble` 参数传递 true 将向上搜索给定 DOM 的祖先,直到找到相应的 [Blot](https://github.com/quilljs/parchment)。
 
-**Methods**
+**方法**
 
 ```typescript
 Quill.find(domNode: Node, bubble: boolean = false): Blot | Quill
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const container = document.querySelector('#container');
 const quill = new Quill(container);
-console.log(Quill.find(container) === quill); // Should be true
+console.log(Quill.find(container) === quill); // 应该是 true
 
 quill.insertText(0, 'Hello', 'link', 'https://world.com');
 const linkNode = document.querySelector('#container a');
 const linkBlot = Quill.find(linkNode);
 
-// Find Quill instance from a blot
+// 从 blot 查找 Quill 实例
 console.log(Quill.find(linkBlot.scroll.domNode.parentElement));
 ```
 
 ### getIndex
 
-Returns the distance between the beginning of document to the occurrence of the given [Blot](https://github.com/quilljs/parchment).
+返回文档开头到给定 [Blot](https://github.com/quilljs/parchment) 出现位置之间的距离。
 
-**Methods**
+**方法**
 
 ```typescript
 getIndex(blot: Blot): number
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 let [line, offset] = quill.getLine(10);
-let index = quill.getIndex(line); // index + offset should == 10
+let index = quill.getIndex(line); // index + offset 应该 == 10
 ```
 
 ### getLeaf
 
-Returns the leaf [Blot](https://github.com/quilljs/parchment) at the specified index within the document.
+返回文档中指定索引处的叶子 [Blot](https://github.com/quilljs/parchment)。
 
-**Methods**
+**方法**
 
 ```typescript
 getLeaf(index: number): [LeafBlot | null, number]
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setText('Hello Good World!');
 quill.formatText(6, 4, 'bold', true);
 
 let [leaf, offset] = quill.getLeaf(7);
-// leaf should be a Text Blot with value "Good"
-// offset should be 1, since the returned leaf started at index 6
+// leaf 应该是值为 "Good" 的 Text Blot
+// offset 应该是 1,因为返回的叶子从索引 6 开始
 ```
 
 ### getLine
 
-Returns the line [Blot](https://github.com/quilljs/parchment) at the specified index within the document.
+返回文档中指定索引处的行 [Blot](https://github.com/quilljs/parchment)。
 
-**Methods**
+**方法**
 
 ```typescript
 getLine(index: number): [Block | BlockEmbed | null, number]
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setText('Hello\nWorld!');
 
 let [line, offset] = quill.getLine(7);
-// line should be a Block Blot representing the 2nd "World!" line
-// offset should be 1, since the returned line started at index 6
+// line 应该是表示第二行 "World!" 的 Block Blot
+// offset 应该是 1,因为返回的行从索引 6 开始
 ```
 
 ### getLines
 
-Returns the lines contained within the specified location.
+返回指定位置内包含的行。
 
-**Methods**
+**方法**
 
 ```typescript
 getLines(index: number = 0, length: number = remaining): (Block | BlockEmbed)[]
 getLines(range: Range): (Block | BlockEmbed)[]
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 quill.setText('Hello\nGood\nWorld!');
 quill.formatLine(1, 1, 'list', 'bullet');
 
 let lines = quill.getLines(2, 5);
-// array with a ListItem and Block Blot,
-// representing the first two lines
+// 包含 ListItem 和 Block Blot 的数组,
+// 表示前两行
 ```
 
-## Extension
+## 扩展
 
 ### debug
 
-Static method enabling logging messages at a given level: `'error'`, `'warn'`, `'log'`, or `'info'`. Passing `true` is equivalent to passing `'log'`. Passing `false` disables all messages.
+静态方法,在给定级别启用日志消息:`'error'`、`'warn'`、`'log'` 或 `'info'`。传递 `true` 等同于传递 `'log'`。传递 `false` 禁用所有消息。
 
-**Methods**
+**方法**
 
 ```typescript
 Quill.debug(level: string | boolean)
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 Quill.debug('info');
@@ -874,15 +874,15 @@ Quill.debug('info');
 
 ### import
 
-Static method returning Quill library, format, module, or theme. In general the path should map exactly to Quill source code directory structure. Unless stated otherwise, modification of returned entities may break required Quill functionality and is strongly discouraged.
+静态方法,返回 Quill 库、格式、模块或主题。通常,路径应该完全映射到 Quill 源代码目录结构。除非另有说明,否则修改返回的实体可能会破坏所需的 Quill 功能,强烈不建议这样做。
 
-**Methods**
+**方法**
 
 ```typescript
 Quill.import(path): any
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const Parchment = Quill.import('parchment');
@@ -890,19 +890,19 @@ const Delta = Quill.import('delta');
 
 const Toolbar = Quill.import('modules/toolbar');
 const Link = Quill.import('formats/link');
-// Similar to ES6 syntax `import Link from 'quill/formats/link';`
+// 类似于 ES6 语法 `import Link from 'quill/formats/link';`
 ```
 
 <Hint>
-Don't confuse this with the [`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) keyword for ECMAScript modules.
-`Quill.import()` doesn't load scripts over the network, it just returns the corresponding module from the Quill library without causing any side-effects.
+不要将此与 ECMAScript 模块的 [`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) 关键字混淆。
+`Quill.import()` 不会通过网络加载脚本,它只是从 Quill 库返回相应的模块,而不会产生任何副作用。
 </Hint>
 
 ### register
 
-Registers a module, theme, or format(s), making them available to be added to an editor. Can later be retrieved with [`Quill.import`](/docs/api/#import). Use the path prefix of `'formats/'`, `'modules/'`, or `'themes/'` for registering formats, modules or themes, respectively. For formats specifically there is a shorthand to just pass in the format directly and the path will be autogenerated. Will overwrite existing definitions with the same path.
+注册模块、主题或格式,使它们可以添加到编辑器中。稍后可以使用 [`Quill.import`](/docs/api/#import) 检索。分别使用路径前缀 `'formats/'`、`'modules/'` 或 `'themes/'` 来注册格式、模块或主题。对于格式,有一个简写方式,只需直接传入格式,路径将自动生成。将覆盖具有相同路径的现有定义。
 
-**Methods**
+**方法**
 
 ```typescript
 Quill.register(format: Attributor | BlotDefinintion, supressWarning: boolean = false)
@@ -910,7 +910,7 @@ Quill.register(path: string, def: any, supressWarning: boolean = false)
 Quill.register(defs: { [path: string]: any }, supressWarning: boolean = false)
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const Module = Quill.import('core/module');
@@ -928,21 +928,21 @@ Quill.register({
 });
 
 Quill.register(CustomFormat);
-// You cannot do Quill.register(CustomModuleA); as CustomModuleA is not a format
+// 你不能执行 Quill.register(CustomModuleA);因为 CustomModuleA 不是格式
 ```
 
 ### addContainer
 
-Adds and returns a container element inside the Quill container, sibling to the editor itself. By convention, Quill modules should have a class name prefixed with `ql-`. Optionally include a refNode where container should be inserted before.
+在 Quill 容器内添加并返回一个容器元素,与编辑器本身同级。按照惯例,Quill 模块应该有一个以 `ql-` 为前缀的类名。可选择包含一个 refNode,容器应该在其之前插入。
 
-**Methods**
+**方法**
 
 ```typescript
 addContainer(className: string, refNode?: Node): Element
 addContainer(domNode: Node, refNode?: Node): Element
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const container = quill.addContainer('ql-custom');
@@ -950,15 +950,15 @@ const container = quill.addContainer('ql-custom');
 
 ### getModule
 
-Retrieves a module that has been added to the editor.
+检索已添加到编辑器的模块。
 
-**Methods**
+**方法**
 
 ```typescript
 getModule(name: string): any
 ```
 
-**Examples**
+**示例**
 
 ```typescript
 const toolbar = quill.getModule('toolbar');

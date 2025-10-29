@@ -1,20 +1,20 @@
 ---
-title: Installation
+title: 安装
 ---
 
-Quill comes ready to use in several convenient forms.
+Quill 提供了多种便捷的使用形式。
 
 ## CDN
 
-A globally distributed and available CDN is provided, backed by [jsDelivr](https://www.jsdelivr.com/).
-This is the most convenient way to get started with Quill, and requires no build steps or package managers.
+我们提供了由 [jsDelivr](https://www.jsdelivr.com/) 支持的全球分布式 CDN。
+这是开始使用 Quill 最便捷的方式,无需构建步骤或包管理器。
 
-### Full Build
+### 完整构建
 
-For most users, the full build is the easiest way to get started with Quill.
-It include the core Quill library, as well as common themes, formats, and modules.
+对于大多数用户来说,完整构建是开始使用 Quill 最简单的方式。
+它包含核心 Quill 库,以及常用的主题、格式和模块。
 
-To import the full build, you will need to include the "quill.js" script and the stylesheet for the theme you wish to use.
+要导入完整构建,你需要包含 "quill.js" 脚本和你想使用的主题样式表。
 
 <Sandpack
   files={{
@@ -37,12 +37,12 @@ To import the full build, you will need to include the "quill.js" script and the
 />
 
 <Hint>
-Learn more about how to [customize the toolbar](/docs/formats).
+了解更多关于如何[自定义工具栏](/docs/formats)的信息。
 </Hint>
 
-### Core Build
+### 核心构建
 
-To fully customize your Quill build, you can import the core library and add only the formats and modules you need.
+要完全自定义你的 Quill 构建,你可以导入核心库并仅添加所需的格式和模块。
 
 <Sandpack
   files={{
@@ -62,21 +62,21 @@ To fully customize your Quill build, you can import the core library and add onl
 />
 
 <Hint>
-Learn more about how to [make your own formats](/guides/cloning-medium-with-parchment).
+了解更多关于如何[创建自己的格式](/guides/cloning-medium-with-parchment)的信息。
 </Hint>
 
-CDN builds expose `Quill` to the global `window` object.
-`Quill` provides an [`import()`](/docs/api#import) method for accessing components of the Quill library, including its formats, modules, or themes.
+CDN 构建将 `Quill` 暴露给全局 `window` 对象。
+`Quill` 提供了一个 [`import()`](/docs/api#import) 方法,用于访问 Quill 库的组件,包括其格式、模块或主题。
 
 ## npm
 
-If your project uses bundlers such as [Webpack](https://webpack.js.org/) or [Vite](https://vitejs.dev/), it's recommended to install Quill via [npm](https://www.npmjs.com/).
+如果你的项目使用 [Webpack](https://webpack.js.org/) 或 [Vite](https://vitejs.dev/) 等打包工具,建议通过 [npm](https://www.npmjs.com/) 安装 Quill。
 
 ```bash
 npm install quill@{{site.version}}
 ```
 
-Similar to the CDN approach, you can import the full build from `"quill"` or the core build from `"quill/core"`.
+与 CDN 方式类似,你可以从 `"quill"` 导入完整构建,或从 `"quill/core"` 导入核心构建。
 
 ```js
 import Quill from 'quill';
@@ -87,12 +87,12 @@ const quill = new Quill('#editor');
 ```
 
 <Hint>
-If you want to use the core build, avoid importing `"quill"` directly throughout your project.
-Doing so results in a full build, as `"quill"` registers the full build's formats and modules upon import.
+如果你想使用核心构建,请避免在整个项目中直接导入 `"quill"`。
+这样做会导致完整构建,因为 `"quill"` 在导入时会注册完整构建的格式和模块。
 </Hint>
 
-`Quill.import()` is also available for the npm build to access Quill's library.
-However, a more natural approach in npm enviroment is to import the formats and modules directly.
+`Quill.import()` 也可用于 npm 构建以访问 Quill 的库。
+但是,在 npm 环境中更自然的方法是直接导入格式和模块。
 
 ```js
 import Quill from 'quill';
@@ -108,15 +108,15 @@ import Link from 'quill/formats/link';
 // Or const Link = Quill.import('formats/link');
 ```
 
-### Styles
+### 样式
 
-Quill's npm package also comes with the stylesheets for the core and themes, just like the CDN build.
-Those stylesheets live in the `dist` directory.
+Quill 的 npm 包也包含核心和主题的样式表,就像 CDN 构建一样。
+这些样式表位于 `dist` 目录中。
 
-You can import them in your JavaScript files if you have a proper bundler setup.
+如果你有适当的打包工具设置,可以在 JavaScript 文件中导入它们。
 
 ```js
 import "quill/dist/quill.core.css";
 ```
 
-Refer to [webpack-example](https://github.com/quilljs/webpack-example) for a sample project that uses Quill in a webpack project.
+参考 [webpack-example](https://github.com/quilljs/webpack-example) 获取在 webpack 项目中使用 Quill 的示例项目。

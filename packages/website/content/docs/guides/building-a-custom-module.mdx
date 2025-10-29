@@ -1,22 +1,22 @@
 ---
-title: Building a Custom Module
+title: 构建自定义模块
 ---
 
-Quill's core strength as an editor is its rich API and powerful customization capabilities. As you implement functionality on top of Quill's API, it may be convenient to organize this as a module. For the purpose of this guide, we will walk through one way to build a word counter module, a commonly found feature in many word processors.
+Quill 作为编辑器的核心优势在于其丰富的 API 和强大的自定义功能。当你在 Quill 的 API 之上实现功能时,将其组织为模块可能会很方便。为了本指南的目的,我们将演示构建字数统计模块的一种方法,这是许多文字处理器中常见的功能。
 
 <Hint>
-Internally modules are how much of Quill's functionality is organized. You can overwrite these default [modules](/docs/modules/) by implementing your own and registering it with the same name.
+在内部,模块是 Quill 大部分功能的组织方式。你可以通过实现自己的模块并使用相同的名称注册来覆盖这些默认[模块](/docs/modules/)。
 </Hint>
 
-### Counting Words
+### 统计字数
 
-At its core a word counter simply counts the number of words in the editor and displays this value in some UI. Thus we need to:
+字数统计器的核心只是计算编辑器中的字数并在某个 UI 中显示此值。因此我们需要:
 
-1. Listen for text changes in Quill.
-1. Count the number of words.
-1. Display this value.
+1. 监听 Quill 中的文本更改。
+1. 计算字数。
+1. 显示此值。
 
-Let's jump straight in with a complete example!
+让我们直接进入一个完整的示例!
 
 <Sandpack
   defaultShowPreview
@@ -51,15 +51,15 @@ function Counter(quill, options) {
   const container = document.querySelector('#counter');
   quill.on(Quill.events.TEXT_CHANGE, () => {
     const text = quill.getText();
-    // There are a couple issues with counting words
-    // this way but we'll fix these later
+    // 这种方式统计字数有几个问题
+    // 但我们稍后会修复这些问题
     container.innerText = text.split(/\\s+/).length;
   });
 }
 
 Quill.register('modules/counter', Counter);
 
-// We can now initialize Quill with something like this:
+// 我们现在可以像这样初始化 Quill:
 const quill = new Quill('#editor', {
   modules: {
     counter: true
@@ -69,11 +69,11 @@ const quill = new Quill('#editor', {
   }}
 />
 
-That's all it takes to add a custom module to Quill! A function can be [registered](/docs/api/#quillregistermodule/) as a module and it will be passed the corresponding Quill editor object along with any options.
+这就是向 Quill 添加自定义模块所需的全部内容!函数可以[注册](/docs/api/#quillregistermodule/)为模块,它将与任何选项一起传递相应的 Quill 编辑器对象。
 
-### Using Options
+### 使用选项
 
-Modules are passed an options object that can be used to fine tune the desired behavior. We can use this to accept a selector for the counter container instead of a hard-coded string. Let's also customize the counter to either count words or characters:
+模块会传递一个选项对象,可用于微调所需的行为。我们可以使用它来接受计数器容器的选择器,而不是硬编码的字符串。让我们还自定义计数器以计算字数或字符数:
 
 <Sandpack
   defaultShowPreview
@@ -119,7 +119,7 @@ function Counter(quill, options) {
 
 Quill.register('modules/counter', Counter);
 
-// We can now initialize Quill with something like this:
+// 我们现在可以像这样初始化 Quill:
 const quill = new Quill('#editor', {
   modules: {
     counter: {
@@ -132,9 +132,9 @@ const quill = new Quill('#editor', {
   }}
 />
 
-### Constructors
+### 构造函数
 
-Since any function can be registered as a Quill module, we could have implemented our counter as an ES5 constructor or ES6 class. This allows us to access and utilize the module directly.
+由于任何函数都可以注册为 Quill 模块,我们可以将计数器实现为 ES5 构造函数或 ES6 类。这允许我们直接访问和使用模块。
 
 <Sandpack
   defaultShowPreview
@@ -190,7 +190,7 @@ class Counter {
 
 Quill.register('modules/counter', Counter);
 
-// We can now initialize Quill with something like this:
+// 我们现在可以像这样初始化 Quill:
 const quill = new Quill('#editor', {
   modules: {
     counter: {
@@ -203,9 +203,9 @@ const quill = new Quill('#editor', {
   }}
 />
 
-### Wrapping It All Up
+### 总结
 
-Now let's polish off the module in ES6 and fix a few pesky bugs. That's all there is to it!
+现在让我们用 ES6 完善模块并修复一些烦人的错误。就是这样!
 
 <Sandpack
   defaultShowPreview
@@ -249,7 +249,7 @@ class Counter {
 
     if (this.options.unit === 'word') {
       const trimmed = text.trim();
-      // Splitting empty text returns a non-empty array
+      // 分割空文本会返回非空数组
       return trimmed.length > 0 ? trimmed.split(/\\s+/).length : 0;
     } else {
       return text.length;
@@ -268,7 +268,7 @@ class Counter {
 
 Quill.register('modules/counter', Counter);
 
-// We can now initialize Quill with something like this:
+// 我们现在可以像这样初始化 Quill:
 const quill = new Quill('#editor', {
   modules: {
     counter: {

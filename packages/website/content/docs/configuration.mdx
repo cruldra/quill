@@ -1,16 +1,16 @@
 ---
-title: Configuration
+title: 配置
 ---
 
-Quill allows several ways to customize it to suit your needs. This section is dedicated to tweaking existing functionality. See the [Modules](/docs/modules/) section for adding new functionality and the [Themes](/docs/themes/) section for styling.
+Quill 提供了多种自定义方式以满足你的需求。本节专门介绍如何调整现有功能。有关添加新功能,请参阅[模块](/docs/modules/)部分;有关样式设置,请参阅[主题](/docs/themes/)部分。
 
 
-## Container
+## 容器
 
-Quill requires a container where the editor will be appended. You can pass in either a CSS selector or a DOM object.
+Quill 需要一个容器来附加编辑器。你可以传入 CSS 选择器或 DOM 对象。
 
 ```javascript
-const quill = new Quill('#editor');  // First matching element will be used
+const quill = new Quill('#editor');  // 将使用第一个匹配的元素
 ```
 
 ```javascript
@@ -18,11 +18,11 @@ const container = document.getElementById('editor');
 const quill = new Quill(container);
 ```
 
-If the container is not empty, Quill will initialize with the existing contents.
+如果容器不为空,Quill 将使用现有内容进行初始化。
 
-## Options
+## 选项
 
-To configure Quill, pass in an options object:
+要配置 Quill,请传入一个选项对象:
 
 <SandpackWithQuillTemplate
   files={{
@@ -39,32 +39,32 @@ const quill = new Quill('#editor', options);
 `}}
 />
 
-The following keys are recognized:
+可识别以下键:
 
 ### bounds
 
-Default: `document.body`
+默认值: `document.body`
 
-DOM Element or a CSS selector for a DOM Element, within which the editor's ui elements (i.e. tooltips, etc.) should be confined. Currently, it only considers left and right boundaries.
+DOM 元素或 DOM 元素的 CSS 选择器,编辑器的 UI 元素(即工具提示等)应限制在其中。目前,它只考虑左右边界。
 
 
 ### debug
 
-Default: `warn`
+默认值: `warn`
 
-Shortcut for [debug](/docs/api/#debug). Note `debug` is a static method and will affect other instances of Quill editors on the page. Only warning and error messages are enabled by default.
+[debug](/docs/api/#debug) 的快捷方式。注意 `debug` 是一个静态方法,会影响页面上 Quill 编辑器的其他实例。默认情况下仅启用警告和错误消息。
 
 ### formats
 
-Default: `null`
+默认值: `null`
 
-A list of formats that are recognized and can exist within the editor contents.
+可识别并可存在于编辑器内容中的格式列表。
 
-By default, all formats that are defined in the Quill library are allowed.
-To restrict formatting to a smaller list, pass in an array of the format names to support.
+默认情况下,允许使用 Quill 库中定义的所有格式。
+要将格式限制为较小的列表,请传入要支持的格式名称数组。
 
-You can create brand new formats or more fully customize the content using [Registries](/docs/registries/).
-Specifying a `registry` option will ignore this `formats` option.
+你可以使用[注册表](/docs/registries/)创建全新的格式或更全面地自定义内容。
+指定 `registry` 选项将忽略此 `formats` 选项。
 
 <Sandpack
   defaultShowPreview
@@ -99,9 +99,9 @@ quill.setContents(
 
 ### placeholder
 
-Default: None
+默认值: 无
 
-Placeholder text to show when editor is empty.
+编辑器为空时显示的占位符文本。
 
 <SandpackWithQuillTemplate
   files={{
@@ -117,9 +117,9 @@ const quill = new Quill('#editor', options);
 
 ### readOnly
 
-Default: `false`
+默认值: `false`
 
-Whether to instantiate the editor to read-only mode.
+是否将编辑器实例化为只读模式。
 
 <SandpackWithQuillTemplate
   files={{
@@ -145,10 +145,10 @@ quill.setContents(
 
 ### registry
 
-Default: `null`
+默认值: `null`
 
-By default all formats defined by Quill are supported in the editor contents through a shared registry between editor instances. Use `formats` to restrict formatting for simple use cases and `registry` for greater customization. Specifying this `registry` option will ignore the `formatting` option. Learn more about [Registries](/docs/registries/).
+默认情况下,Quill 定义的所有格式都通过编辑器实例之间的共享注册表在编辑器内容中受支持。对于简单的用例,使用 `formats` 来限制格式;对于更大的自定义,使用 `registry`。指定此 `registry` 选项将忽略 `formatting` 选项。了解更多关于[注册表](/docs/registries/)的信息。
 
 ### theme
 
-Name of theme to use. The builtin options are `"bubble"` or `"snow"`. An invalid or falsy value will load a default minimal theme. Note the theme's specific stylesheet still needs to be included manually. See [Themes](/docs/themes/) for more information.
+要使用的主题名称。内置选项为 `"bubble"` 或 `"snow"`。无效或假值将加载默认的最小主题。请注意,仍需手动包含主题的特定样式表。有关更多信息,请参阅[主题](/docs/themes/)。

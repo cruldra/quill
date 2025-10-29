@@ -1,52 +1,52 @@
 ---
-title: Registries
+title: 注册表
 ---
 
-Registries allow multiple editors with different formats to coexist on the same page.
+注册表允许具有不同格式的多个编辑器在同一页面上共存。
 
-If you register a format with `Quill.register()`, the format will be registered to a global registry,
-which will be used by all Quill instances.
+如果你使用 `Quill.register()` 注册格式,该格式将注册到全局注册表,
+所有 Quill 实例都将使用该注册表。
 
-However, in some cases, you might want to have multiple registries, so that different Quill instances
-can have different formats. For example, you might want to have a Quill instance that only supports
-bold and italic, and another Quill instance that supports bold, italic, and underline.
+但是,在某些情况下,你可能希望拥有多个注册表,以便不同的 Quill 实例
+可以具有不同的格式。例如,你可能希望有一个仅支持
+粗体和斜体的 Quill 实例,以及另一个支持粗体、斜体和下划线的 Quill 实例。
 
-## Usage
+## 用法
 
-To create a Quill with a custom registry, you can pass in a registry object to the Quill constructor:
+要创建具有自定义注册表的 Quill,可以将注册表对象传递给 Quill 构造函数:
 
 ```js
 const registry = new Parchment.Registry();
 
-// Register the formats that you need for the editor with `registry.register()`.
-// We will cover this in more detail in the next section.
+// 使用 `registry.register()` 注册编辑器所需的格式。
+// 我们将在下一节中更详细地介绍这一点。
 
 const quill = new Quill('#editor', {
   registry,
-  // ...other options
+  // ...其他选项
 })
 ```
 
-## Register Formats
+## 注册格式
 
-A custom registry doesn't come with any formats by default. You should register the formats that you need with `registry.register()`.
-There are some essential formats that you will need to register in order to have a functional editor:
+自定义注册表默认不带任何格式。你应该使用 `registry.register()` 注册所需的格式。
+为了拥有一个功能性的编辑器,你需要注册一些基本格式:
 
 <Sandpack
   defaultShowPreview
   files={{
     'index.html': `
-<!-- Include stylesheet -->
+<!-- 包含样式表 -->
 <link href="{{site.cdn}}/quill.snow.css" rel="stylesheet" />
 <div id="editor">
 </div>
-<!-- Include the Quill library -->
+<!-- 包含 Quill 库 -->
 <script src="{{site.cdn}}/quill.js"></script>
 <script src="/index.js"></script>`,
     "/index.js": `
 const Parchment = Quill.import('parchment');
 
-// Essential formats
+// 基本格式
 const Block = Quill.import('blots/block');
 const Break = Quill.import('blots/break');
 const Container = Quill.import('blots/container');
@@ -74,10 +74,10 @@ const quill = new Quill('#editor', {
 />
 
 <Hint>
-You may have noticed that the format buttons on the toolbar above doesn't work.
-This is because we haven't registered any of the corresponding formats yet.
+你可能已经注意到上面工具栏上的格式按钮不起作用。
+这是因为我们还没有注册任何相应的格式。
 
-The toolbar module doesn't detect whether a format is available or not, so it will always show the buttons.
-Follow [this guide](/docs/modules/toolbar) to learn more about how to customize the toolbar.
+工具栏模块不会检测格式是否可用,因此它将始终显示按钮。
+按照[本指南](/docs/modules/toolbar)了解有关如何自定义工具栏的更多信息。
 </Hint>
 

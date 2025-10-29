@@ -1,10 +1,10 @@
 ---
-title: Formats
+title: 格式
 ---
 
-Quill supports a number of formats, both in UI controls and API calls.
+Quill 支持多种格式,包括 UI 控件和 API 调用。
 
-By default, all formats are enabled and allowed in a Quill editor. They can be configured with the [formats](/docs/configuration/#formats) option. This is separate from adding a control in the [Toolbar](/docs/modules/toolbar/). For example, you can configure Quill to allow bolded content to be pasted into an editor that has no bold button in the toolbar.
+默认情况下,所有格式都在 Quill 编辑器中启用和允许。可以使用 [formats](/docs/configuration/#formats) 选项进行配置。这与在[工具栏](/docs/modules/toolbar/)中添加控件是分开的。例如,你可以配置 Quill 允许将粗体内容粘贴到工具栏中没有粗体按钮的编辑器中。
 
 <Sandpack
   preferPreview
@@ -85,35 +85,35 @@ By default, all formats are enabled and allowed in a Quill editor. They can be c
 />
 
 <a className="standalone-link" href="/standalone/full/">
-  Standalone
+  独立演示
 </a>
 
-#### Inline
+#### 内联格式
 
-- Background Color - `background`
-- Bold - `bold`
-- Color - `color`
-- Font - `font`
-- Inline Code - `code`
-- Italic - `italic`
-- Link - `link`
-- Size - `size`
-- Strikethrough - `strike`
-- Superscript/Subscript - `script`
-- Underline - `underline`
+- 背景颜色 - `background`
+- 粗体 - `bold`
+- 颜色 - `color`
+- 字体 - `font`
+- 内联代码 - `code`
+- 斜体 - `italic`
+- 链接 - `link`
+- 大小 - `size`
+- 删除线 - `strike`
+- 上标/下标 - `script`
+- 下划线 - `underline`
 
-#### Block
+#### 块级格式
 
-- Blockquote - `blockquote`
-- Header - `header`
-- Indent - `indent`
-- List - `list`
-- Text Alignment - `align`
-- Text Direction - `direction`
-- Code Block - `code-block`
+- 引用块 - `blockquote`
+- 标题 - `header`
+- 缩进 - `indent`
+- 列表 - `list`
+- 文本对齐 - `align`
+- 文本方向 - `direction`
+- 代码块 - `code-block`
 
-#### Embeds
+#### 嵌入内容
 
-- Formula - `formula` (requires [KaTeX](https://katex.org/))
-- Image - `image`
-- Video - `video`
+- 公式 - `formula` (需要 [KaTeX](https://katex.org/))
+- 图像 - `image`
+- 视频 - `video`

@@ -1,35 +1,35 @@
 ---
-title: Clipboard Module
+title: 剪贴板模块
 ---
 
-The Clipboard handles copy, cut and paste between Quill and external applications. A set of defaults exist to provide sane interpretation of pasted content, with the ability for further customization through matchers.
+剪贴板处理 Quill 与外部应用程序之间的复制、剪切和粘贴。存在一组默认值以提供对粘贴内容的合理解释,并能够通过匹配器进行进一步自定义。
 
-The Clipboard interprets pasted HTML by traversing the corresponding DOM tree in [post-order](https://en.wikipedia.org/wiki/Tree_traversal#Post-order), building up a [Delta](/docs/delta/) representation of all subtrees. At each descendant node, matcher functions are called with the DOM Node and Delta interpretation so far, allowing the matcher to return a modified Delta interpretation.
+剪贴板通过以[后序](https://en.wikipedia.org/wiki/Tree_traversal#Post-order)遍历相应的 DOM 树来解释粘贴的 HTML,构建所有子树的 [Delta](/docs/delta/) 表示。在每个后代节点处,使用 DOM 节点和到目前为止的 Delta 解释调用匹配器函数,允许匹配器返回修改后的 Delta 解释。
 
-Familiarity and comfort with [Deltas](/docs/delta/) is necessary in order to effectively use matchers.
+为了有效地使用匹配器,必须熟悉和掌握 [Deltas](/docs/delta/)。
 
 
 ## API
 
 #### addMatcher
 
-Adds a custom matcher to the Clipboard. Matchers using `nodeType` are called first, in the order they were added, followed by matchers using a CSS `selector`, also in the order they were added. [`nodeType`](https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType) may be `Node.ELEMENT_NODE` or `Node.TEXT_NODE`.
+向剪贴板添加自定义匹配器。使用 `nodeType` 的匹配器首先按添加顺序调用,然后是使用 CSS `selector` 的匹配器,也按添加顺序调用。[`nodeType`](https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType) 可以是 `Node.ELEMENT_NODE` 或 `Node.TEXT_NODE`。
 
-**Methods**
+**方法**
 
 ```javascript
 addMatcher(selector: String, (node: Node, delta: Delta) => Delta)
 addMatcher(nodeType: Number, (node: Node, delta: Delta) => Delta)
 ```
 
-**Examples**
+**示例**
 
 ```javascript
 quill.clipboard.addMatcher(Node.TEXT_NODE, (node, delta) => {
   return new Delta().insert(node.data);
 });
 
-// Interpret a <b> tag as bold
+// 将 <b> 标签解释为粗体
 quill.clipboard.addMatcher('B', (node, delta) => {
   return delta.compose(new Delta().retain(delta.length(), { bold: true }));
 });
@@ -37,32 +37,32 @@ quill.clipboard.addMatcher('B', (node, delta) => {
 
 ### dangerouslyPasteHTML
 
-Inserts content represented by HTML snippet into editor at a given index. The snippet is interpreted by Clipboard [matchers](#addMatcher), which may not produce the exactly input HTML. If no insertion index is provided, the entire editor contents will be overwritten. The [source](/docs/api/#events) may be `"user"`, `"api"`, or `"silent"`.
+在给定索引处将 HTML 片段表示的内容插入编辑器。该片段由剪贴板[匹配器](#addMatcher)解释,可能不会产生完全相同的输入 HTML。如果未提供插入索引,则整个编辑器内容将被覆盖。[source](/docs/api/#events) 可以是 `"user"`、`"api"` 或 `"silent"`。
 
-Improper handling of HTML can lead to [cross site scripting (XSS)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)) and failure to sanitize properly is both notoriously error-prone and a leading cause of web vulnerabilities. This method follows React's example and is aptly named to ensure the developer has taken the necessary precautions.
+不当处理 HTML 可能导致[跨站脚本攻击 (XSS)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)),并且未能正确清理既容易出错又是 Web 漏洞的主要原因。此方法遵循 React 的示例,并恰当地命名以确保开发人员已采取必要的预防措施。
 
-**Methods**
+**方法**
 
 ```javascript
 dangerouslyPasteHTML(html: String, source: String = 'api')
 dangerouslyPasteHTML(index: Number, html: String, source: String = 'api')
 ```
 
-**Examples**
+**示例**
 
 ```javascript
 quill.setText('Hello!');
 
 quill.clipboard.dangerouslyPasteHTML(5, '&nbsp;<b>World</b>');
-// Editor is now '<p>Hello&nbsp;<strong>World</strong>!</p>';
+// 编辑器现在是 '<p>Hello&nbsp;<strong>World</strong>!</p>';
 ```
 
 
-## Configuration
+## 配置
 
 ### matchers
 
-An array of matchers can be passed into Clipboard's configuration options. These will be appended after Quill's own default matchers.
+可以将匹配器数组传递到剪贴板的配置选项中。这些将附加在 Quill 自己的默认匹配器之后。
 
 ```javascript
 const quill = new Quill('#editor', {

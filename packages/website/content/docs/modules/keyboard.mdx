@@ -1,17 +1,17 @@
 ---
-title: Keyboard Module
+title: 键盘模块
 ---
 
-The Keyboard module enables custom behavior for keyboard events in particular contexts. Quill uses this to bind formatting hotkeys and prevent undesirable browser side effects.
+键盘模块在特定上下文中为键盘事件启用自定义行为。Quill 使用它来绑定格式化热键并防止不良的浏览器副作用。
 
 
-### Key Bindings
+### 键绑定
 
-Keyboard handlers are bound to a particular key and key modifiers. The `key` is the JavaScript event key code, but string shorthands are allowed for alphanumeric keys and some common keys.
+键盘处理程序绑定到特定的键和键修饰符。`key` 是 JavaScript 事件键代码,但允许对字母数字键和一些常见键使用字符串简写。
 
-Key modifiers include: `metaKey`, `ctrlKey`, `shiftKey` and `altKey`. In addition, `shortKey` is a platform specific modifier equivalent to `metaKey` on a Mac and `ctrlKey` on Linux and Windows.
+键修饰符包括:`metaKey`、`ctrlKey`、`shiftKey` 和 `altKey`。此外,`shortKey` 是一个平台特定的修饰符,在 Mac 上等同于 `metaKey`,在 Linux 和 Windows 上等同于 `ctrlKey`。
 
-Handlers will be called with `this` bound to the keyboard instance and be passed the current selection range.
+处理程序将使用绑定到键盘实例的 `this` 调用,并传递当前选择范围。
 
 ```js
 quill.keyboard.addBinding({
@@ -21,8 +21,8 @@ quill.keyboard.addBinding({
   this.quill.formatText(range, 'bold', true);
 });
 
-// addBinding may also be called with one parameter,
-// in the same form as in initialization
+// addBinding 也可以使用一个参数调用,
+// 形式与初始化时相同
 quill.keyboard.addBinding({
   key: 'b',
   shortKey: true,
@@ -32,41 +32,41 @@ quill.keyboard.addBinding({
 });
 ```
 
-If a modifier key is `false`, it is assumed to mean that modifier is not active. You may also pass `null` to mean any value for the modifier.
+如果修饰键为 `false`,则假定该修饰符未激活。你也可以传递 `null` 表示修饰符的任何值。
 
 ```js
-// Only b with no modifier will trigger
+// 只有没有修饰符的 b 会触发
 quill.keyboard.addBinding({ key: 'b' }, handler);
 
-// Only shift+b will trigger
+// 只有 shift+b 会触发
 quill.keyboard.addBinding({ key: ['b', 'B'], shiftKey: true }, handler);
 
-// Either b or shift+b will trigger
+// b 或 shift+b 都会触发
 quill.keyboard.addBinding({ key: ['b', 'B'], shiftKey: null }, handler);
 
 ```
 
-Multiple handlers may be bound to the same key and modifier combination. Handlers will be called synchronously, in the order they were bound. By default, a handler stops propagating to the next handler, unless it explicitly returns `true`.
+多个处理程序可以绑定到相同的键和修饰符组合。处理程序将按照它们绑定的顺序同步调用。默认情况下,处理程序停止传播到下一个处理程序,除非它明确返回 `true`。
 
 
 ```js
 quill.keyboard.addBinding({ key: 'Tab' }, function(range) {
-  // I will normally prevent handlers of the tab key
-  // Return true to let later handlers be called
+  // 我通常会阻止 tab 键的处理程序
+  // 返回 true 以让后续处理程序被调用
   return true;
 });
 ```
 
-Note: Since Quill's default handlers are added at initialization, the only way to prevent them is to add yours in the [configuration](#configuration).
+注意:由于 Quill 的默认处理程序在初始化时添加,阻止它们的唯一方法是在[配置](#configuration)中添加你的处理程序。
 
 
-### Context
+### 上下文
 
-Contexts enable further specification for handlers to be called only in particular scenarios. Regardless if context is specified, a context object is provided as a second parameter for all handlers.
+上下文使处理程序能够进一步指定仅在特定场景中调用。无论是否指定上下文,上下文对象都作为所有处理程序的第二个参数提供。
 
 ```js
-// If the user hits backspace at the beginning of list or blockquote,
-// remove the format instead delete any text
+// 如果用户在列表或引用块的开头按退格键,
+// 删除格式而不是删除任何文本
 quill.keyboard.addBinding({ key: 'Backspace' }, {
   collapsed: true,
   format: ['blockquote', 'list'],
@@ -82,17 +82,17 @@ quill.keyboard.addBinding({ key: 'Backspace' }, {
 
 #### collapsed
 
-If `true`, handler is called only if the user's selection is collapsed, i.e. in cursor form. If `false`, the users's selection must be non-zero length, such as when the user has highlighted text.
+如果为 `true`,则仅当用户的选择折叠时(即光标形式)才调用处理程序。如果为 `false`,则用户的选择必须是非零长度,例如当用户高亮显示文本时。
 
 
 #### empty
 
-If `true`, called only if user's selection is on an empty line, `false` for a non-empty line. Note setting empty to be true implies collapsed is also true and offset is 0&mdash;otherwise the user's selection would not be on an empty line.
+如果为 `true`,则仅当用户的选择在空行上时调用,`false` 表示非空行。请注意,将 empty 设置为 true 意味着 collapsed 也为 true 且 offset 为 0&mdash;否则用户的选择将不在空行上。
 
 ```js
-// If the user hits enter on an empty list, remove the list instead
+// 如果用户在空列表上按回车键,则删除列表
 quill.keyboard.addBinding({ key: 'Enter' }, {
-  empty: true,    // implies collapsed: true and offset: 0
+  empty: true,    // 意味着 collapsed: true 和 offset: 0
   format: ['list']
 }, function(range, context) {
   this.quill.format('list', false);
@@ -102,14 +102,14 @@ quill.keyboard.addBinding({ key: 'Enter' }, {
 
 #### format
 
-When an Array, handler will be called if *any* of the specified formats are active. When an Object, *all* specified formats conditions must be met. In either case, the format property of the context parameter will be an Object of all current active formats, the same returned by `quill.getFormat()`.
+当为数组时,如果*任何*指定的格式处于活动状态,则将调用处理程序。当为对象时,必须满足*所有*指定的格式条件。在任何一种情况下,上下文参数的 format 属性将是所有当前活动格式的对象,与 `quill.getFormat()` 返回的相同。
 
 ```js
 const context = {
   format: {
-    list: true,       // must be on a list, but can be any value
-    script: 'super',  // must be exactly 'super', 'sub' will not suffice
-    link: false       // cannot be in any link
+    list: true,       // 必须在列表上,但可以是任何值
+    script: 'super',  // 必须恰好是 'super','sub' 不够
+    link: false       // 不能在任何链接中
   }
 };
 ```
@@ -117,67 +117,67 @@ const context = {
 
 #### offset
 
-Handler will be only called when the user's selection starts `offset` characters from the beginning of the line. Note this is before printable keys have been applied. This is useful in combination with other context specifications.
+仅当用户的选择从行的开头开始 `offset` 个字符时才会调用处理程序。请注意,这是在应用可打印键之前。这与其他上下文规范结合使用很有用。
 
 
 #### prefix
 
-Regex that must match the text immediately preceding the user's selection's start position. The text will not match cross format boundaries. The supplied `context.prefix` value will be the entire immediately preceding text, not just the regex match.
+必须匹配紧接在用户选择的起始位置之前的文本的正则表达式。文本不会跨格式边界匹配。提供的 `context.prefix` 值将是整个紧接在前面的文本,而不仅仅是正则表达式匹配。
 
 ```js
-// When the user types space...
+// 当用户输入空格时...
 quill.keyboard.addBinding({ key: ' ' }, {
   collapsed: true,
-  format: { list: false },  // ...on a line that's not already a list
-  prefix: /^-$/,            // ...following a '-' character
-  offset: 1,                // ...at the 1st position of the line,
-                            // otherwise handler would trigger if the user
-                            // typed hyphen+space mid sentence
+  format: { list: false },  // ...在不是列表的行上
+  prefix: /^-$/,            // ...在 '-' 字符之后
+  offset: 1,                // ...在行的第 1 个位置,
+                            // 否则如果用户在句子中间输入连字符+空格,
+                            // 处理程序会触发
 }, function(range, context) {
-  // the space character is consumed by this handler
-  // so we only need to delete the hyphen
+  // 空格字符被此处理程序消耗
+  // 所以我们只需要删除连字符
   this.quill.deleteText(range.index - 1, 1);
-  // apply bullet formatting to the line
+  // 将项目符号格式应用于该行
   this.quill.formatLine(range.index, 1, 'list', 'bullet');
-  // restore selection
+  // 恢复选择
   this.quill.setSelection(range.index - 1);
 
-  // console.log(context.prefix) would print '-'
+  // console.log(context.prefix) 将打印 '-'
 });
 ```
 
 #### suffix
 
-The same as [`prefix`](#prefix) except matching text immediately following the user's selection's end position.
+与 [`prefix`](#prefix) 相同,但匹配紧接在用户选择的结束位置之后的文本。
 
 
-### Configuration
+### 配置
 
-By default, Quill comes with several useful key bindings, for example indenting lists with tabs. You can add your own upon initialization.
+默认情况下,Quill 带有几个有用的键绑定,例如使用 tab 缩进列表。你可以在初始化时添加自己的绑定。
 
-Some bindings are essential to preventing dangerous browser defaults, such as the enter and backspace keys. You cannot remove these bindings to revert to native browser behaviors. However since bindings specified in the configuration will run before Quill's defaults, you can handle special cases and propagate to Quill's otherwise.
+一些绑定对于防止危险的浏览器默认行为至关重要,例如回车键和退格键。你不能删除这些绑定以恢复到原生浏览器行为。但是,由于配置中指定的绑定将在 Quill 的默认绑定之前运行,因此你可以处理特殊情况并传播到 Quill 的默认行为。
 
-Adding a binding with `quill.keyboard.addBinding` will not run before Quill's because the defaults bindings will have been added by that point.
+使用 `quill.keyboard.addBinding` 添加绑定不会在 Quill 的默认绑定之前运行,因为默认绑定在那时已经添加了。
 
-Each binding config must contain `key` and `handler` options, and may optionally include any of the `context` options.
+每个绑定配置必须包含 `key` 和 `handler` 选项,并且可以选择性地包含任何 `context` 选项。
 
 ```javascript
 const bindings = {
-  // This will overwrite the default binding also named 'tab'
+  // 这将覆盖也名为 'tab' 的默认绑定
   tab: {
     key: 9,
     handler: function() {
-      // Handle tab
+      // 处理 tab
     }
   },
 
-  // There is no default binding named 'custom'
-  // so this will be added without overwriting anything
+  // 没有名为 'custom' 的默认绑定
+  // 所以这将被添加而不会覆盖任何内容
   custom: {
     key: ['b', 'B'],
     shiftKey: true,
     handler: function(range, context) {
-      // Handle shift+b
+      // 处理 shift+b
     }
   },
 
@@ -186,11 +186,11 @@ const bindings = {
     format: ['list'],
     handler: function(range, context) {
       if (context.offset === 0) {
-        // When backspace on the first character of a list,
-        // remove the list instead
+        // 当在列表的第一个字符上按退格键时,
+        // 删除列表
         this.quill.format('list', false, Quill.sources.USER);
       } else {
-        // Otherwise propogate to Quill's default
+        // 否则传播到 Quill 的默认行为
         return true;
       }
     }
@@ -207,6 +207,6 @@ const quill = new Quill('#editor', {
 ```
 
 
-### Performance
+### 性能
 
-Like DOM events, Quill key bindings are blocking calls on every match, so it is a bad idea to have a very expensive handler for a very common key binding. Apply the same performance best practices as you would when attaching to common blocking DOM events, like `scroll` or `mousemove`.
+与 DOM 事件一样,Quill 键绑定在每次匹配时都是阻塞调用,因此对于非常常见的键绑定使用非常昂贵的处理程序是一个坏主意。应用与附加到常见阻塞 DOM 事件(如 `scroll` 或 `mousemove`)时相同的性能最佳实践。

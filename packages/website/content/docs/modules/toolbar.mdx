@@ -1,8 +1,8 @@
 ---
-title: Toolbar Module
+title: 工具栏模块
 ---
 
-The Toolbar module allow users to easily format Quill's contents.
+工具栏模块允许用户轻松格式化 Quill 的内容。
 
 <div className="quill-wrapper">
   <div id="toolbar-toolbar" className="toolbar">
@@ -55,13 +55,13 @@ The Toolbar module allow users to easily format Quill's contents.
   />
 </div>
 
-It can be configured with a custom container and handlers.
+它可以配置自定义容器和处理程序。
 
 ```javascript
 const quill = new Quill('#editor', {
   modules: {
     toolbar: {
-      container: '#toolbar', // Selector for toolbar container
+      container: '#toolbar', // 工具栏容器的选择器
       handlers: {
         bold: customBoldHandler
       }
@@ -70,22 +70,22 @@ const quill = new Quill('#editor', {
 });
 ```
 
-Because the `container` option is so common, a top level shorthand is also allowed.
+因为 `container` 选项非常常见,所以也允许使用顶级简写。
 
 ```javascript
 const quill = new Quill('#editor', {
   modules: {
-    // Equivalent to { toolbar: { container: '#toolbar' }}
+    // 等同于 { toolbar: { container: '#toolbar' }}
     toolbar: '#toolbar'
   }
 });
 ```
 
-## Container
+## 容器
 
-Toolbar controls can either be specified by a simple array of format names or a custom HTML container.
+工具栏控件可以通过简单的格式名称数组或自定义 HTML 容器来指定。
 
-To begin with the simpler array option:
+首先从更简单的数组选项开始:
 
 ```javascript
 const toolbarOptions = ['bold', 'italic', 'underline', 'strike'];
@@ -97,51 +97,51 @@ const quill = new Quill('#editor', {
 });
 ```
 
-Controls can also be grouped by one level of nesting an array. This will wrap controls in a `<span>` with class name `ql-formats`, providing structure for themes to utilize. For example [Snow](/docs/themes/#snow/) adds extra spacing between control groups.
+控件也可以通过嵌套一级数组来分组。这将把控件包装在一个类名为 `ql-formats` 的 `<span>` 中,为主题提供可利用的结构。例如,[Snow](/docs/themes/#snow/) 在控件组之间添加额外的间距。
 
 ```javascript
 const toolbarOptions = [['bold', 'italic'], ['link', 'image']];
 ```
 
-Buttons with custom values can be specified with an Object with the name of the format as its only key.
+具有自定义值的按钮可以用一个对象来指定,格式名称作为其唯一的键。
 
 ```javascript
 const toolbarOptions = [{ header: '3' }];
 ```
 
-Dropdowns are similarly specified by an Object, but with an array of possible values. CSS is used to control the visual labels for dropdown options.
+下拉列表类似地由对象指定,但具有可能值的数组。CSS 用于控制下拉选项的视觉标签。
 
 ```javascript
-// Note false, not 'normal', is the correct value
-// quill.format('size', false) removes the format,
-// allowing default styling to work
+// 注意 false,而不是 'normal',是正确的值
+// quill.format('size', false) 删除格式,
+// 允许默认样式工作
 const toolbarOptions = [
   { size: [ 'small', false, 'large', 'huge' ]}
 ];
 ```
 
-Note [Themes](/docs/themes/) may also specify default values for dropdowns. For example, [Snow](/docs/themes/#snow/) provides a default list of 35 colors for the `color` and `background` formats, if set to an empty array.
+请注意,[主题](/docs/themes/)也可以为下拉列表指定默认值。例如,如果设置为空数组,[Snow](/docs/themes/#snow/) 为 `color` 和 `background` 格式提供了 35 种颜色的默认列表。
 
 ```javascript
 const toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  ['bold', 'italic', 'underline', 'strike'],        // 切换按钮
   ['blockquote', 'code-block'],
   ['link', 'image', 'video', 'formula'],
 
-  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+  [{ 'header': 1 }, { 'header': 2 }],               // 自定义按钮值
   [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-  [{ 'direction': 'rtl' }],                         // text direction
+  [{ 'script': 'sub'}, { 'script': 'super' }],      // 上标/下标
+  [{ 'indent': '-1'}, { 'indent': '+1' }],          // 减少缩进/增加缩进
+  [{ 'direction': 'rtl' }],                         // 文本方向
 
-  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+  [{ 'size': ['small', false, 'large', 'huge'] }],  // 自定义下拉列表
   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 
-  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  [{ 'color': [] }, { 'background': [] }],          // 使用主题默认值的下拉列表
   [{ 'font': [] }],
   [{ 'align': [] }],
 
-  ['clean']                                         // remove formatting button
+  ['clean']                                         // 删除格式按钮
 ];
 
 const quill = new Quill('#editor', {
@@ -152,28 +152,28 @@ const quill = new Quill('#editor', {
 });
 ```
 
-For use cases requiring even more customization, you can manually create a toolbar in HTML, and pass the DOM element or selector into Quill. The `ql-toolbar` class will be added to the toolbar container and Quill attach appropriate handlers to `<button>` and `<select>` elements with a class name in the form `ql-${format}`. Buttons element may optionally have a custom `value` attribute.
+对于需要更多自定义的用例,你可以在 HTML 中手动创建工具栏,并将 DOM 元素或选择器传递给 Quill。`ql-toolbar` 类将被添加到工具栏容器中,Quill 会将适当的处理程序附加到类名为 `ql-${format}` 形式的 `<button>` 和 `<select>` 元素。按钮元素可以选择性地具有自定义 `value` 属性。
 
 ```html
-<!-- Create toolbar container -->
+<!-- 创建工具栏容器 -->
 <div id="toolbar">
-  <!-- Add font size dropdown -->
+  <!-- 添加字体大小下拉列表 -->
   <select class="ql-size">
     <option value="small"></option>
-    <!-- Note a missing, thus falsy value, is used to reset to default -->
+    <!-- 注意缺失的值(因此为假值)用于重置为默认值 -->
     <option selected></option>
     <option value="large"></option>
     <option value="huge"></option>
   </select>
-  <!-- Add a bold button -->
+  <!-- 添加粗体按钮 -->
   <button class="ql-bold"></button>
-  <!-- Add subscript and superscript buttons -->
+  <!-- 添加下标和上标按钮 -->
   <button class="ql-script" value="sub"></button>
   <button class="ql-script" value="super"></button>
 </div>
 <div id="editor"></div>
 
-<!-- Initialize editor with toolbar -->
+<!-- 使用工具栏初始化编辑器 -->
 <script>
   const quill = new Quill('#editor', {
     modules: {
@@ -183,15 +183,15 @@ For use cases requiring even more customization, you can manually create a toolb
 </script>
 ```
 
-Note by supplying your own HTML element, Quill searches for particular input elements, but your own inputs that have nothing to do with Quill can still be added and styled and coexist.
+请注意,通过提供你自己的 HTML 元素,Quill 会搜索特定的输入元素,但你自己的与 Quill 无关的输入仍然可以添加、样式化并共存。
 
 ```html
 <div id="toolbar">
-  <!-- Add buttons as you would before -->
+  <!-- 像以前一样添加按钮 -->
   <button class="ql-bold"></button>
   <button class="ql-italic"></button>
 
-  <!-- But you can also add your own -->
+  <!-- 但你也可以添加自己的 -->
   <button id="custom-button"></button>
 </div>
 <div id="editor"></div>
@@ -210,16 +210,16 @@ Note by supplying your own HTML element, Quill searches for particular input ele
 </script>
 ```
 
-## Handlers
+## 处理程序
 
-The toolbar controls by default applies and removes formatting, but you can also overwrite this with custom handlers, for example in order to show external UI.
+工具栏控件默认应用和删除格式,但你也可以使用自定义处理程序覆盖此行为,例如为了显示外部 UI。
 
-Handler functions will be bound to the toolbar (so using `this` will refer to the toolbar instance) and passed the `value` attribute of the input if the corresponding format is inactive, and `false` otherwise. Adding a custom handler will overwrite the default toolbar and theme behavior.
+处理程序函数将绑定到工具栏(因此使用 `this` 将引用工具栏实例),如果相应的格式处于非活动状态,则传递输入的 `value` 属性,否则传递 `false`。添加自定义处理程序将覆盖默认的工具栏和主题行为。
 
 ```javascript
 const toolbarOptions = {
   handlers: {
-    // handlers object will be merged with default handlers object
+    // handlers 对象将与默认 handlers 对象合并
     link: function (value) {
       if (value) {
         const href = prompt('Enter the URL');
@@ -237,7 +237,7 @@ const quill = new Quill('#editor', {
   }
 });
 
-// Handlers can also be added post initialization
+// 处理程序也可以在初始化后添加
 const toolbar = quill.getModule('toolbar');
 toolbar.addHandler('image', showImageUI);
 ```
